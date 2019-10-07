@@ -5,15 +5,17 @@
     {% if title %}
     <title>{{title}}</title>
     {% else %}
-    <title>Welcome to Event Finding!</title>
+    <title>Welcome to My bolg</title>
     {% endif%}
 </head>
 <body>
-    <div>Event Finding:
+    <div>Event Search:
         <a href="{{url_for('index')}}">Home</a>
         {% if current_user.is_anonymous %}
         <a href="{{url_for('login')}}"> Sign in</a>
         {% else %}
+        <a href="{{url_for('explore')}}">Explore</a>
+        <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
         <a href="{{url_for('logout')}}">Sign out</a>
         {% endif%}
     </div>
