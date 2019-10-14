@@ -1,0 +1,40 @@
+@import "main.css";
+
+* {
+    color: black;
+}
+
+form {    
+    font-size: 1.6em;
+    font-weight: bold;
+    max-width: 256px;
+    margin: auto;
+    line-height: 26pt;
+}
+
+div {
+    background-color: rgb(52, 110, 235);
+}
+
+body {
+    background: url('../IMAGE/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+}
+
+form {
+    margin-top: 10%
+}
+
+form p {
+    margin-top: 10%
+}
+
+form footer {
+    margin-top: 10%;
+}
+
+footer p{
+    display: inline-block;
+}
