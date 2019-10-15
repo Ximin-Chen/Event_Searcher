@@ -6,6 +6,8 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../static/CSS/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stlesheet" type="text/css" href="style.css">
 </head>
 <body>
     <header class="top-header">
@@ -55,6 +57,25 @@
                     <a href="#" id="search-btn" class="main-nav-btn">
                         <i class="fa fa-search"></i> Search
                     </a>
+                    <!-- <form class="example" action="action_page.php">
+                        <input type="text" placeholder="Search.." name="search">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                      </form>
+                     !-->  
+                     <div class search="search"> 
+                         <input type="text" placeholder="Search">
+                         <div class="icon"></div>                        
+                     </div>
+                     <script
+                    src="https://code.jquery.com/jquery-3.4.1.js"></script>
+                    <script type="text/javascript">
+                    $(document).ready(function(){
+                        $('.icon').click(function(){
+                            $('.search')/toggleClass('active')
+                        })
+                    })
+                    
+                    </script>
                     <a href="#" id="fav-btn" class="main-nav-btn">
                         <i class="fa fa-heart"></i> My Favorites
                     </a>
