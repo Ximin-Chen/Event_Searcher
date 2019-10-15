@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+/*the import is for search bar font*/
 * {
     box-sizing: border-box;
     margin: 0;
@@ -258,5 +260,152 @@ ul {
     color: #990000;
     padding-top: 10px;
 }
+/*Search bar*/
+.nav {
+    background: #232323;
+    height: 60px;
+    display: inline-block;
+   position: relative;
 
+   left: 150px;
+    
+}
+ /*Search bar*/
+.nav li {
+    float: left;
+    list-style-type: none;
+    position: relative;
+}
 
+/*Search bar links*/
+.nav li a {
+    font-size: 16px;
+    color: white;
+    display: block;
+    line-height: 60px;
+    padding: 0 26px;
+    text-decoration: none;
+    border-left: 1px solid #2e2e2e;
+    font-family: Montserrat, sans-serif;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+    position: relative;
+}
+/*Search bar links*/
+.nav li a:hover {
+    background-color: #2e2e2e;
+}
+ /*Search bar links*/
+#settings a {
+    padding: 18px;
+    height: 24px;
+    font-size: 10px;
+    line-height: 24px;
+}
+ /*Search bar links*/
+#search {
+    width: 357px;
+    margin: 4px;
+    
+}
+ /*Search bar*/
+#search_text{
+    width: 297px;
+    padding: 15px 0 15px 20px;
+    font-size: 16px;
+    font-family: Montserrat, sans-serif;
+    border: 0 none;
+    height: 52px;
+    margin-right: 0;
+    color: white;
+    outline: none;
+    background: rgba(245, 82, 226, 0.8);
+    float: left;
+    box-sizing: border-box;
+    transition: all 0.15s;
+}
+
+ /*Search bar*/
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: white;
+}
+
+ /*Search bar*/
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: white;
+}
+
+ /*Search bar*/
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: white;
+}
+
+ /*Search bar*/
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: white;
+}
+
+ /*Search bar*/
+#search_text:focus {
+    background: rgba(255, 82, 226, 0.8);
+}
+
+ /*Search bar*/
+#search_button {
+    border: 0 none;
+    background: rgba(255, 82, 226, 0.8);
+    width: 60px;
+    float: left;
+    padding: 0;
+    text-align: center;
+    height: 52px;
+    cursor: pointer;
+}
+
+#options a{
+    border-left: 0 none;
+}
+#options a {
+    background-image: url(triangle.png);
+    background-position: 85% center;
+    background-repeat: no-repeat;
+    padding-right: 42px;
+}
+.subnav {
+    visibility: hidden;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 200px;
+    height: auto;
+    opacity: 0;
+    transition: all 0.1s;
+    background: #232323;
+}
+.subnav li {
+    float: none;
+}
+.subnav li a {
+    border-bottom: 1px solid #2e2e2e;
+}
+#options:hover .subnav {
+    visibility: visible;
+    top: 100%;
+    opacity: 1;
+}
+
+#searchButton {
+    border-radius: 6px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+    border: none;
+    background: transparent;
+   }
+   
+   #searchButton:hover {
+    border: none;
+    background: orange;
+   }
+
+   
