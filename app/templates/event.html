@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Event Recommendation</title>
-<!-- 
+    <!-- 
     No longer needed
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -13,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../static/CSS/style.css">
     <script src="main.js"></script>
 </head>
+
 <body>
     <header class="top-header">
         <nav class="top-nav">
@@ -24,34 +26,10 @@
     <div class="container">
         <header>
             <p><span>Event<br />
-                Recommendation</span>
+                    Recommendation</span>
             </p>
         </header>
         <section class="main-section">
-<!--            <div id="login-form">-->
-<!--                <label for="username">Username:</label>-->
-<!--                <input id="username" name="username" type="text">-->
-<!--                <label for="password">Password:</label>-->
-<!--                <input id="password" name="password" type="password">-->
-<!--                <button id="register-form-btn">New User? Register</button>-->
-<!--                <button id="login-btn">Login</button>-->
-<!--                <p id="login-error"></p>-->
-<!--            </div>-->
-
-<!--            <div id="register-form">-->
-<!--                <label for="username">Username: *</label>-->
-<!--                <input id="register-username" name="username" type="text">-->
-<!--                <label for="password">Password: *</label>-->
-<!--                <input id="register-password" name="password" type="password">-->
-<!--                <label for="first-name">First Name: *</label>-->
-<!--                <input id="register-first-name" name="first-name" type="text">-->
-<!--                <label for="last-name">Last Name: *</label>-->
-<!--                <input id="register-last-name" name="last-name" type="text">-->
-<!--                <button id="login-form-btn">Back to Login</button>-->
-<!--                <button id="register-btn">Register</button>-->
-<!--                <p id="register-result"></p>-->
-<!--            </div>-->
-
             <aside id="item-nav">
 
                 <nav class="main-nav">
@@ -59,23 +37,23 @@
                         <i class="fa fa-map-marker"></i> Nearby
                     </a>
                     <a href="#" id="search-btn" class="main-nav-btn">
-                        <i class="fa fa-search"></i> 
+                        <i class="fa fa-search"></i>
                         <input type="button" id="searchButton" value="Search">
-                    <script>
-                    searchButton.onclick = function() {
-                        document.getElementById("item-list").style.visibility = "hidden";
-                        
-                        document.getElementById("search").style.visibility = "visible";
-                        document.getElementById("options").style.visibility = "visible";
-                        document.getElementById("nav").style.visibility = "visible";
-                    };
-                    </script>
-                    
+                        <script>
+                            searchButton.onclick = function () {
+                                document.getElementById("item-list").style.visibility = "hidden";
+
+                                document.getElementById("search").style.visibility = "visible";
+                                document.getElementById("options").style.visibility = "visible";
+                                document.getElementById("nav").style.visibility = "visible";
+                            };
+                        </script>
+
 
                     </a>
-                    
 
-                    
+
+
                     </script>
                     <a href="#" id="fav-btn" class="main-nav-btn">
                         <i class="fa fa-heart"></i> My Favorites
@@ -87,27 +65,82 @@
                 </nav>
 
             </aside>
-            
-            <ul class="nav">
-                    <li id="search"style>
-                        <form action="" method="get">
-                            <input type="text" name="search_text" id="search_text" placeholder="Search"/>
-                            <input type="button" name="search_button" id="search_button"></a>
-                        </form>
-                    </li>
-                    <li id="options"style=>
-                        <a href="#">Category</a>
-                        <ul class="subnav">
-                            <li><a href="#">Music</a></li>
-                            <li><a href="#">Sports</a></li>
-                            <li><a href="#">Art</a></li>
-                            <li><a href="#">Others</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                 
-                <script src="prefixfree-1.0.7.js" type="text/javascript"></script>
 
+            <ul class="nav">
+                <li id="search" style>
+                    <form action="" method="get">
+                        <input type="text" name="search_text" id="search_text" placeholder="Search" />
+                        <input type="button" name="search_button" id="search_button"></a>
+                    </form>
+                </li>
+                <li id="options" style=>
+                    <a href="#">Category</a>
+                    <ul class="subnav">
+                        <li><a href="#">Music</a></li>
+                        <li><a href="#">Sports</a></li>
+                        <li><a href="#">Art</a></li>
+                        <li><a href="#">Others</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <script src="prefixfree-1.0.7.js" type="text/javascript"></script>
+
+            <div id="event">
+
+                <div class="event">
+
+                    <div class="event-header">
+                        <img alt="event image" src="../static/IMAGE/sf.jpg" />
+                        <div class="event-content">
+                            <a class="event-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                            <p class="event-category">Category: Sports</p>
+                            <div class="stars">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="fav-link">
+                            <i class="fa fa-heart"></i>
+                        </div>
+                    </div>
+
+                    <div class="event-body">
+                        <div class="event-body-content">
+                            <div class="about">About</div>
+                            <div class="event-description">
+                                Testing 123 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                            </div>
+                        </div>
+                        <div class="event-sidebar">
+                            <div class="event-address">4900 Marie P. DeBartolo Way<br />Santa Clara, CA 95054</div>
+                            <div class="event-time">4:30 PM</div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!--
+                <div class="fav-link">
+                        <i class="fa fa-heart"></i>
+                </div>
+-->
+
+
+
+            </div>
+
+            <!--
             <ul id="item-list">
                 <li class="item">
                     <img alt="item image" src="../static/IMAGE/sf.jpg" />
@@ -158,6 +191,7 @@
                     </div>
                 </li>
             </ul>
+-->
         </section>
     </div>
 
@@ -165,4 +199,5 @@
 
 
 </body>
+
 </html>

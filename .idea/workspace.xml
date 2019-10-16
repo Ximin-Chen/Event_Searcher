@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+
     <list default="true" id="474c3cf1-899b-4ffc-ad17-8f3e4fbf8a27" name="Default Changelist" comment="create the event table">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.db" beforeDir="false" afterPath="$PROJECT_DIR$/app.db" afterDir="false" />
@@ -65,6 +66,7 @@
     <property name="DatabaseDriversLRU" value="sqlite" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+
     <property name="database.data.extractors.current.id" value="SQL Inserts" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/migrations/versions" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -284,6 +286,7 @@
       <workItem from="1568850267672" duration="89000" />
       <workItem from="1568851037969" duration="2077000" />
       <workItem from="1568964086642" duration="7000" />
+
       <workItem from="1570430518843" duration="5838000" />
       <workItem from="1571097986689" duration="461000" />
       <workItem from="1571098510213" duration="336000" />
