@@ -1,11 +1,17 @@
-from app import app,db
+from app import app,db,Config
 from flask import render_template, flash, redirect, url_for
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Post
+from app.models import User, Post, Event
 from flask import request
 from werkzeug.urls import url_parse
 from datetime import datetime
+import urllib.request
+import json
+
+HOST = Config.HOST
+PATH = Config.PATH
+API_KEY = Config.TICKETMASTER_API_KEY
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -70,7 +76,7 @@ def user(username):
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
     ]
-    return render_template('user.html', user=user, posts=posts)
+    return render_template('user.html', user=user, posts=posts, title='Profile')
 
 
 @app.before_request
@@ -133,3 +139,35 @@ def unfollow(username):
 def explore():
     posts = Post.query.order_by(Post.timestamp.desc()).all()
     return render_template('index.html', title='Explore', posts=posts)
+
+
+@app.route('/search')
+def search():
+    url = f'''{HOST}{PATH}?apikey={API_KEY}&keyword=San%20Jose'''
+    with urllib.request.urlopen(url) as file:
+        page = file.read()
+        data = json.loads(page, encoding="utf-8")
+    print(data)
+    if data["_embedded"]:
+        for event in data["_embedded"]["events"]:
+            e = Event()
+            if event.get('id'):
+                e.id = event.get('id')
+            if event.get('name'):
+                e.name = event.get('name')
+            if event.get('rating'):
+                e.rating = event.get("rating", None)
+            if event.get('_embedded'):
+                address_dict = event.get('_embedded').get('venues')[0].get("address")
+                address = ""
+                for addr in address_dict:
+                    address += address_dict[addr]
+                e.address = address
+            if event.get('images'):
+                e.img_url = event.get('images')[0].get('url')
+            if event.get('url'):
+                e.event_url = event.get('url')
+            if event.get('distance'):
+                e.distance = event.get("distance", None)
+            db.session.add(e)
+            db.session.commit()

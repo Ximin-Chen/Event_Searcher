@@ -74,3 +74,11 @@ class Post(db.Model):
         return f'<Post {self.body}>'
 
 
+class Event(db.Model):
+    id = db.Column(db.String(256), primary_key=True)
+    name = db.Column(db.String(256), index=True)
+    rating = db.Column(db.Float, index=True)
+    address = db.Column(db.String(256), index=True)
+    img_url = db.Column(db.String(256), index=True)
+    event_url = db.Column(db.String(256), index=True)
+    distance = db.Column(db.Float, index=True)
