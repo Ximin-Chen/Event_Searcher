@@ -11,7 +11,7 @@ function searchButtonFunction() {
   }
 
  
-(function() {
+{
 
     /**
      * Variables
@@ -26,6 +26,7 @@ function searchButtonFunction() {
      */
     function init() {
         // register event listeners
+        /*
         document.querySelector('#login-form-btn').addEventListener('click', onSessionInvalid);
         document.querySelector('#login-btn').addEventListener('click', login);
         document.querySelector('#register-form-btn').addEventListener('click', showRegisterForm);
@@ -34,6 +35,7 @@ function searchButtonFunction() {
         document.querySelector('#fav-btn').addEventListener('click', loadFavoriteItems);
         document.querySelector('#recommend-btn').addEventListener('click', loadRecommendedItems);
         validateSession();
+        */
         // onSessionValid({"user_id":"1111","name":"John Smith","status":"OK"});
     }
 
@@ -391,7 +393,7 @@ function searchButtonFunction() {
         var data = null;
 
         // display loading message
-        showLoadingMessage('Loading nearby items...');
+        // showLoadingMessage('Loading nearby items...');
 
         // make AJAX call
         ajax('GET', url + '?' + params, data,
@@ -401,8 +403,10 @@ function searchButtonFunction() {
                 if (!items || items.length === 0) {
                     showWarningMessage('No nearby item.');
                 } else {
+                    console.log(items);
                     listItems(items);
                 }
+                console.log("Finished looking for nearby events");
             },
             // failed callback
             function() {
@@ -547,6 +551,7 @@ function searchButtonFunction() {
      */
     function addItem(itemList, item) {
         var item_id = item.item_id;
+        console.log(item);
 
         // create the <li> tag and specify the id and class attributes
         var li = $create('li', {
@@ -555,12 +560,14 @@ function searchButtonFunction() {
         });
 
         // set the data attribute ex. <li data-item_id="G5vYZ4kxGQVCR" data-favorite="true">
-        li.dataset.item_id = item_id;
-        li.dataset.favorite = item.favorite;
+        // li.dataset.item_id = item_id;
+        // li.dataset.favorite = item.favorite;
+
+        
 
         // item image
-        if (item.image_url) {
-            li.appendChild($create('img', { src: item.image_url }));
+        if (item.images[0].url) {
+            li.appendChild($create('img', { src: item.images[0].url }));
         } else {
             li.appendChild($create('img', {
                 src: 'https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png'
@@ -582,7 +589,9 @@ function searchButtonFunction() {
         var category = $create('p', {
             className: 'item-category'
         });
-        category.innerHTML = 'Category: ' + item.categories.join(', ');
+
+        //Instead, do item.classifications[0].genre.name
+        category.innerHTML = 'Category: ' + item.classifications[0].genre.name //item.categories; //.join(', '); 
         section.appendChild(category);
 
         // stars
@@ -613,7 +622,10 @@ function searchButtonFunction() {
         });
 
         // ',' => '<br/>',  '\"' => ''
-        address.innerHTML = item.address.replace(/,/g, '<br/>').replace(/\"/g, '');
+        addressFromTicketMaster = item._embedded.venues[0].address.line1
+        console.log(addressFromTicketMaster)
+        //address.innerHTML = item.address.replace(/,/g, '<br/>').replace(/\"/g, '');
+        address.innerHTML = addressFromTicketMaster.replace(/,/g, '<br/>').replace(/\"/g, '');
         li.appendChild(address);
 
         // favorite link
@@ -636,4 +648,4 @@ function searchButtonFunction() {
 
     init();
 
-})();
+}

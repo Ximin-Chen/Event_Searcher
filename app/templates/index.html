@@ -48,11 +48,15 @@
                     <input type="button" id="searchButton" value="Search">
                     <script>
                         searchButton.onclick = function () {
+                            /*
                             document.getElementById("item-list").style.visibility = "hidden";
 
                             document.getElementById("search").style.visibility = "visible";
                             document.getElementById("options").style.visibility = "visible";
                             document.getElementById("nav").style.visibility = "visible";
+                            */
+
+                            loadNearbyItems();
                         };
                     </script>
 
@@ -90,6 +94,7 @@
                 </ul>
             </li>
         </ul>
+
         <ul id="item-list">
             <li class="item">
                 <img alt="item image" src="../static/IMAGE/sf.jpg" />

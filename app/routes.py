@@ -9,6 +9,8 @@ from datetime import datetime
 import urllib.request
 import json
 
+from flask import jsonify, Response
+
 HOST = Config.HOST
 PATH = Config.PATH
 API_KEY = Config.TICKETMASTER_API_KEY
@@ -147,7 +149,11 @@ def search():
     with urllib.request.urlopen(url) as file:
         page = file.read()
         data = json.loads(page, encoding="utf-8")
+    
     print(data)
+
+    eventsJSON = []
+
     if data["_embedded"]:
         for event in data["_embedded"]["events"]:
             e = Event()
@@ -169,5 +175,11 @@ def search():
                 e.event_url = event.get('url')
             if event.get('distance'):
                 e.distance = event.get("distance", None)
+            """
             db.session.add(e)
             db.session.commit()
+            """
+            eventsJSON.append(event)
+    
+    """data["_embedded"]["events"]["images"]   """ 
+    return Response(json.dumps(eventsJSON, indent=4, sort_keys=True))
