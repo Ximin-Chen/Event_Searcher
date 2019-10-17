@@ -9,9 +9,11 @@
     {% endif%}
     <link rel="stylesheet" type="text/css" href="../static/CSS/style.css">
     <script src="../static/JS/main.js"></script>
-</head>
+   </head>
 <body>
-    <div>Event Search:
+    <div class="container">
+           
+        Event Search:
         <a href="{{url_for('index')}}">Home</a>
         {% if current_user.is_anonymous %}
         <a href="{{url_for('login')}}"> Sign in</a>
@@ -35,5 +37,3 @@
     {% endwith %}
     {% block content%}
     {% endblock %}
-</body>
-</html>
