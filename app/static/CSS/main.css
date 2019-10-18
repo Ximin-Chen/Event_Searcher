@@ -16,6 +16,8 @@ body {
     font-weight: 300;
     font-size: 0.9em;
     height:100%;
+    display: flex;
+    flex-direction: column;
 }
 
 ul {
@@ -210,14 +212,17 @@ ul {
     color: #F13F3F;
 }
 
-
-
 #login-form {
     color: #624630;
     margin: 0px auto;
     overflow: auto;
     padding: 40px;
     width: 350px;
+    margin-top: 80px;
+}
+
+#login-form remember {
+    display: flex;
 }
 
 #login-form label {
@@ -260,6 +265,7 @@ ul {
     overflow: auto;
     padding: 40px;
     width: 350px;
+    margin-top: 80px;
 }
 
 #register-form label {
@@ -278,6 +284,7 @@ ul {
     cursor: pointer;
     float: left;
     padding: 8px 10px;
+    font-size: 100;
     text-align: left;
 }
 #register-form #register-btn {
