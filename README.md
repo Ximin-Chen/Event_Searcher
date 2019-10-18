@@ -21,5 +21,7 @@ Once the dependencies are installed the server can be instantiated and run by th
 ```
 
 env FLASK_APP=event_searcher.py flask run
+ * Serving Flask app "event_searcher"
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 
 ```
