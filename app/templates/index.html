@@ -22,7 +22,7 @@
     </div>
     {% endfor %}
 -->
-
+<!--
 <header class="top-header">
     <nav class="top-nav">
         <a href="#">Home</a>
@@ -30,6 +30,7 @@
     <span id="welcome-msg"></span>
     <i id="avatar" class="avatar fa fa-user fa-2x"></i>
 </header>
+-->
 <div class="container">
     <header>
         <p><span>Event<br />
@@ -48,11 +49,15 @@
                     <input type="button" id="searchButton" value="Search">
                     <script>
                         searchButton.onclick = function () {
+                            /*
                             document.getElementById("item-list").style.visibility = "hidden";
 
                             document.getElementById("search").style.visibility = "visible";
                             document.getElementById("options").style.visibility = "visible";
                             document.getElementById("nav").style.visibility = "visible";
+                            */
+
+                            loadNearbyItems();
                         };
                     </script>
 
@@ -90,6 +95,7 @@
                 </ul>
             </li>
         </ul>
+
         <ul id="item-list">
             <li class="item">
                 <img alt="item image" src="../static/IMAGE/sf.jpg" />
