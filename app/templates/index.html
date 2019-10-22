@@ -1,125 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Event Recommendation</title>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/CSS/main.css">
-</head>
-<body>
-    <header class="top-header">
-        <nav class="top-nav">
-            <a href="#">Home</a>
-        </nav>
-        <span id="welcome-msg"></span>
-        <i id="avatar" class="avatar fa fa-user fa-2x"></i>
-    </header>
-    <div class="container">
-        <header>
-            <p><span>Event<br />
-                Recommendation</span>
-            </p>
-        </header>
-        <section class="main-section">
-<!--            <div id="login-form">-->
-<!--                <label for="username">Username:</label>-->
-<!--                <input id="username" name="username" type="text">-->
-<!--                <label for="password">Password:</label>-->
-<!--                <input id="password" name="password" type="password">-->
-<!--                <button id="register-form-btn">New User? Register</button>-->
-<!--                <button id="login-btn">Login</button>-->
-<!--                <p id="login-error"></p>-->
-<!--            </div>-->
+{% extends "base.html" %}
 
-<!--            <div id="register-form">-->
-<!--                <label for="username">Username: *</label>-->
-<!--                <input id="register-username" name="username" type="text">-->
-<!--                <label for="password">Password: *</label>-->
-<!--                <input id="register-password" name="password" type="password">-->
-<!--                <label for="first-name">First Name: *</label>-->
-<!--                <input id="register-first-name" name="first-name" type="text">-->
-<!--                <label for="last-name">Last Name: *</label>-->
-<!--                <input id="register-last-name" name="last-name" type="text">-->
-<!--                <button id="login-form-btn">Back to Login</button>-->
-<!--                <button id="register-btn">Register</button>-->
-<!--                <p id="register-result"></p>-->
-<!--            </div>-->
-
-            <aside id="item-nav">
-
-                <nav class="main-nav">
-                    <a href="#" id="nearby-btn" class="main-nav-btn active">
-                        <i class="fa fa-map-marker"></i> Nearby
-                    </a>
-                    <a href="#" id="search-btn" class="main-nav-btn">
-                        <i class="fa fa-search"></i> Search
-                    </a>
-                    <a href="#" id="fav-btn" class="main-nav-btn">
-                        <i class="fa fa-heart"></i> My Favorites
-                    </a>
-                    <a href="#" id="recommend-btn" class="main-nav-btn">
-                        <i class="fa fa-thumbs-up"></i> Recommendation
-                    </a>
-
-                </nav>
-
-            </aside>
-            <ul id="item-list">
-                <li class="item">
-                    <img alt="item image" src="../static/IMAGE/sf.jpg" />
-                    <div>
-                        <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
-                        <p class="item-category">Category: Sports</p>
-                        <div class="stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="item-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA</p>
-                    <div class="fav-link">
-                        <i class="fa fa-heart"></i>
-                    </div>
-                </li>
-                <li class="item">
-                    <img alt="item image" src="../static/IMAGE/sf.jpg" />
-                    <div>
-                        <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
-                        <p class="item-category">Category: Sports</p>
-                        <div class="stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="item-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA</p>
-                    <div class="fav-link">
-                        <i class="fa fa-heart"></i>
-                    </div>
-                </li>
-                <li class="item">
-                    <img alt="item image" src="../static/IMAGE/sf.jpg" />
-                    <div>
-                        <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
-                        <p class="item-category">Category: Sports</p>
-                        <div class="stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="item-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA</p>
-                    <div class="fav-link">
-                        <i class="fa fa-heart"></i>
-                    </div>
-                </li>
-            </ul>
-        </section>
+{% block content%}
+<!--
+    <h1>Hi, {{current_user.username}}</h1>
+    {% if form%}
+    <form action="" method="post">
+        {{form.hidden_tag()}}
+        <p>
+            {{form.post.label}}<br>
+            {{form.post(cols=32, rows=4)}}<br>
+            {% for error in form.post.errors%}
+            <span style="color: red">[{{error}}]</span>
+            {% endfor %}
+        </p>
+        <p>{{form.submit()}}</p>
+    </form>
+    {% endif%}
+    {% for post in posts%}
+    <div>
+        {% include '_post.html' %}
     </div>
+    {% endfor %}
+-->
+<!--
+<header class="top-header">
+    <nav class="top-nav">
+        <a href="#">Home</a>
+    </nav>
+    <span id="welcome-msg"></span>
+    <i id="avatar" class="avatar fa fa-user fa-2x"></i>
+</header>
+-->
+<div class="container">
+    <header>
+        <p><span>Event<br />
+                Recommendation</span>
+        </p>
+    </header>
+    <section class="main-section">
+        <aside id="item-nav">
+
+            <nav class="main-nav">
+                <a href="#" id="nearby-btn" class="main-nav-btn active">
+                    <i class="fa fa-map-marker"></i> Nearby
+                </a>
+                <a href="#" id="search-btn" class="main-nav-btn">
+                    <i class="fa fa-search"></i>
+                    <input type="button" id="searchButton" value="Search">
+                    <script>
+                        searchButton.onclick = function () {
+                            /*
+                            document.getElementById("item-list").style.visibility = "hidden";
+
+                            document.getElementById("search").style.visibility = "visible";
+                            document.getElementById("options").style.visibility = "visible";
+                            document.getElementById("nav").style.visibility = "visible";
+                            */
+
+                            loadNearbyItems();
+                        };
+                    </script>
+
+
+                </a>
 
 
 
+                </script>
+                <a href="#" id="fav-btn" class="main-nav-btn">
+                    <i class="fa fa-heart"></i> My Favorites
+                </a>
+                <a href="#" id="recommend-btn" class="main-nav-btn">
+                    <i class="fa fa-thumbs-up"></i> Recommendation
+                </a>
 
-</body>
-</html>
+            </nav>
+
+        </aside>
+
+        <ul class="nav">
+            <li id="search" style>
+                <form action="" method="get">
+                    <input type="text" name="search_text" id="search_text" placeholder="Search" />
+                    <input type="button" name="search_button" id="search_button"></a>
+                </form>
+            </li>
+            <li id="options" style=>
+                <a href="#">Category</a>
+                <ul class="subnav">
+                    <li><a href="#">Music</a></li>
+                    <li><a href="#">Sports</a></li>
+                    <li><a href="#">Art</a></li>
+                    <li><a href="#">Others</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul id="item-list">
+            <li class="item">
+                <img alt="item image" src="../static/IMAGE/sf.jpg" />
+                <div>
+                    <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                    <p class="item-category">Category: Sports</p>
+                    <div class="stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                </div>
+                <p class="item-address">4900 Marie P. DeBartolo Way<br />Santa Clara<br /> CA</p>
+                <div class="fav-link">
+                    <i class="fa fa-heart"></i>
+                </div>
+            </li>
+            <li class="item">
+                <img alt="item image" src="../static/IMAGE/sf.jpg" />
+                <div>
+                    <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                    <p class="item-category">Category: Sports</p>
+                    <div class="stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                </div>
+                <p class="item-address">4900 Marie P. DeBartolo Way<br />Santa Clara<br /> CA</p>
+                <div class="fav-link">
+                    <i class="fa fa-heart"></i>
+                </div>
+            </li>
+            <li class="item">
+                <img alt="item image" src="../static/IMAGE/sf.jpg" />
+                <div>
+                    <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                    <p class="item-category">Category: Sports</p>
+                    <div class="stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                </div>
+                <p class="item-address">4900 Marie P. DeBartolo Way<br />Santa Clara<br /> CA</p>
+                <div class="fav-link">
+                    <i class="fa fa-heart"></i>
+                </div>
+            </li>
+        </ul>
+    </section>
+</div>
+{% endblock %}
