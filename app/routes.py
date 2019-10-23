@@ -1,4 +1,6 @@
-from app import app,db,Config
+from functools import wraps
+
+from app import app, db, Config
 from flask import render_template, flash, redirect, url_for
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
 from flask_login import current_user, login_user, logout_user, login_required
@@ -9,7 +11,6 @@ from datetime import datetime
 import urllib.request
 import json
 
-
 from flask import jsonify, Response
 
 HOST = Config.HOST
@@ -17,8 +18,18 @@ PATH = Config.PATH
 API_KEY = Config.TICKETMASTER_API_KEY
 
 
+def login_require(func):
+        @wraps(func)
+        def decorated_function(*args, **kwargs):
+            if 'user_id' not in session:
+                abort(401)
+            return func(*args, **kwargs)
+        return decorated_function
+
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
+@login_require
 def index():
     return render_template("index.html", title='Home Page')
 
@@ -45,26 +56,30 @@ def login():
     # print(username, password)
     # if username is None or password is None:
     #     abort(404)
-    username = request.json.get("user_id")
-    password = request.json.get("password")
-
+    if request.method == 'GET':
+        if session.get('user_id'):
+            user_id = session['user_id']
+            return jsonify(status='OK',user_id=user_id,name='ximin chen') # name is hardcoded
+        return jsonify(status='invalid session')
     if request.method == 'POST':
+        username = request.json.get("user_id")
+        password = request.json.get("password")
         user = User.query.filter_by(username=username).first()
         if user:
             if user.password_hash == password:
-                session['username'] = username
-                return jsonify(status="OK", name=username)
+                session['user_id'] = username
+                return jsonify(status="OK", user_id=username, name='ximin chen') # name is hardcoded
             abort(400)
     return jsonify(status='error')
 
 
 @app.route('/logout')
 def logout():
-    session['username'] = False
+    session['user_id'] = None
     return redirect(url_for('index'))
 
 
-@app.route('/register',methods=['GET','POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     # if current_user.is_authenticated:
     #     return redirect(url_for('index'))
@@ -94,6 +109,7 @@ def register():
     db.session.add(user)
     db.session.commit()
     return jsonify({'status': "OK"})
+
 
 #
 # @app.route('/user/<username>')
@@ -175,7 +191,7 @@ def search():
     with urllib.request.urlopen(url) as file:
         page = file.read()
         data = json.loads(page, encoding="utf-8")
-    
+
     print(data)
     eventsJSON = []
 
@@ -205,6 +221,8 @@ def search():
             db.session.commit()
             """
             eventsJSON.append(event)
-    
-    """data["_embedded"]["events"]["images"]   """ 
+
+    """data["_embedded"]["events"]["images"]   """
     return Response(json.dumps(eventsJSON, indent=4, sort_keys=True))
+
+
