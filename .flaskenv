@@ -1,0 +1,2 @@
+FLASK_APP=event_searcher.py
+FLASK_ENV=development
