@@ -20,8 +20,10 @@ followers = db.Table('followers',
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
+    username = db.Column(db.String(64), unique=True)
     email= db.Column(db.String(128),index=True, unique=True)
+    firstname = db.Column(db.String(128))
+    lastname = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
@@ -34,6 +36,13 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+    # def register_user(self, username, pw, firstname,lastname):
+    #     self.username = username
+    #     self.password_hash = pw
+    #     self.firstname = firstname
+    #     self.lastname = lastname
+
 
     def set_pw(self, pw):
         self.password_hash = generate_password_hash(pw)
@@ -62,6 +71,7 @@ class User(UserMixin, db.Model):
             followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id =self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
+
 
 
 class Post(db.Model):

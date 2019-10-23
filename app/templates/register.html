@@ -1,38 +1,48 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Recommendation</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/CSS/main.css">
+</head>
+<body>
+    <header class="top-header">
+        <nav class="top-nav">
+            <a href="#">Home</a>
+        </nav>
+        <span id="welcome-msg"></span>
+        <i id="avatar" class="avatar fa fa-user fa-2x"></i>
+    </header>
+    <div class="container">
+        <header>
+            <p><span>Event<br />
+                Recommendation</span>
+            </p>
+        </header>
 
-{% block content %}
-<h1>Register</h1>
-<form action="" method="post">
-    {{form.hidden_tag()}}
-    <p>
-        {{ form.username.label }} <br>
-        {{ form.username(size=32) }} <br>
-        {% for error in form.username.errors %}
-        <span style="color: red">[{{error}}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.email.label }} <br>
-        {{ form.email(size=32) }} <br>
-        {% for error in form.email.errors %}
-        <span style="color: red">[{{error}}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.pw.label }}<br>
-        {{ form.pw(size=32) }}<br>
-        {% for error in form.pw.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.pw_confirm.label }}<br>
-        {{ form.pw_confirm(size=32) }}<br>
-        {% for error in form.pw_confirm.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>{{ form.submit() }}</p>
-</form>
+        <section class="main-section">
+              <div id="register-form">
+                    <label for="username">Username: *</label>
+                    <input id="register-username" name="username" type="text">
+                    <label for="password">Password: *</label>
+                    <input id="register-password" name="password" type="password">
+                    <label for="first-name">First Name: *</label>
+                    <input id="register-first-name" name="first-name" type="text">
+                    <label for="last-name">Last Name: *</label>
+                    <input id="register-last-name" name="last-name" type="text">
+                    <button id="login-form-btn">Back to Login</button>
+                    <button id="register-btn">Register</button>
+                    <p id="register-result"></p>
+            </div>
 
-{% endblock %}
+        </section>
+    </div>
+
+    <script src="https://rawgit.com/emn178/js-md5/master/build/md5.min.js"></script>
+    <script src="../static/js/main.js"></script>
+
+
+</body>
+</html>
