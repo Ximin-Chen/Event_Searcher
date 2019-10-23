@@ -2,13 +2,7 @@ from app import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from app import login
 from hashlib import md5
-
-
-@login.user_loader
-def lode_user(user_id):
-    return User.query.get(int(user_id))
 
 
 # assistant table between two users
@@ -21,7 +15,9 @@ followers = db.Table('followers',
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
-    email= db.Column(db.String(128),index=True, unique=True)
+    email = db.Column(db.String(128),index=True, unique=True)
+    first_name = db.Column(db.String(128),index=True)
+    last_name = db.Column(db.String(128),index=True)
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
