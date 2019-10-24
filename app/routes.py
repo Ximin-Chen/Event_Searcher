@@ -18,18 +18,17 @@ PATH = Config.PATH
 API_KEY = Config.TICKETMASTER_API_KEY
 
 
-def login_require(func):
-        @wraps(func)
-        def decorated_function(*args, **kwargs):
-            if 'user_id' not in session:
-                abort(401)
-            return func(*args, **kwargs)
-        return decorated_function
+# def login_required(func):
+#         @wraps(func)
+#         def decorated_function(*args, **kwargs):
+#             if 'user_id' not in session:
+#                 abort(401)
+#             return func(*args, **kwargs)
+#         return decorated_function
 
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
-@login_require
 def index():
     return render_template("index.html", title='Home Page')
 
@@ -68,6 +67,7 @@ def login():
         if user:
             if user.password_hash == password:
                 session['user_id'] = username
+                session.permanent = True
                 return jsonify(status="OK", user_id=username, name='ximin chen') # name is hardcoded
             abort(400)
     return jsonify(status='error')
