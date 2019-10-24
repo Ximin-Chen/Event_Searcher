@@ -8,7 +8,7 @@ from hashlib import md5
 
 @login.user_loader
 def lode_user(user_id):
-    return User.query.get(int(user_id))
+    return User.query.get(user_id)
 
 
 # assistant table between two users
