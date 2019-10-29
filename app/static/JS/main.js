@@ -49,7 +49,7 @@
   }
 
   function onSessionValid(result) {
-    user_id = result.user_id;
+    user_id = result.id;
     user_fullname = result.name;
 
     var loginForm = document.querySelector('#login-form');
@@ -60,7 +60,7 @@
     var welcomeMsg = document.querySelector('#welcome-msg');
     var logoutBtn = document.querySelector('#logout-link');
 
-    welcomeMsg.innerHTML = 'Welcome, ' + user_fullname;
+    welcomeMsg.innerHTML = 'Welcome, ' + result.name;
 
     showElement(itemNav);
     showElement(itemList);
@@ -548,8 +548,10 @@
     li.dataset.favorite = item.favorite;
 
     // item image
-    if (item.image_url) {
-      li.appendChild($create('img', { src: item.image_url }));
+    if (item.img_url) {
+      console.log(item.img_url);
+      console.log(item.event_url);
+      li.appendChild($create('img', { src: item.img_url }));
     } else {
       li.appendChild($create('img', {
         src: 'https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png'
@@ -561,18 +563,18 @@
     // title
     var title = $create('a', {
       className: 'item-name',
-      href: item.url,
+      href: item.event_url,
       target: '_blank'
     });
     title.innerHTML = item.name;
     section.appendChild(title);
 
     // category
-    var category = $create('p', {
-      className: 'item-category'
-    });
-    category.innerHTML = 'Category: ' + item.categories.join(', ');
-    section.appendChild(category);
+    // var category = $create('p', {
+    //   className: 'item-category'
+    // });
+    // category.innerHTML = 'Category: ' + item.categories.join(', ');
+    // section.appendChild(category);
 
     // stars
     var stars = $create('div', {
@@ -602,7 +604,8 @@
     });
 
     // ',' => '<br/>',  '\"' => ''
-    address.innerHTML = item.address.replace(/,/g, '<br/>').replace(/\"/g, '');
+    address.innerHTML = item.address;
+        // .replace(/,/g, '<br/>').replace(/\"/g, '');
     li.appendChild(address);
 
     // favorite link

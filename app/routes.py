@@ -1,21 +1,17 @@
+import urllib
 from functools import wraps
 
-from app import app, db, Config
-from flask import render_template, flash, redirect, url_for
+import requests
+from app import app, db
+from flask import render_template, flash, redirect, url_for, copy_current_request_context
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, Event
 from flask import request, abort, session
 from werkzeug.urls import url_parse
 from datetime import datetime
-import urllib.request
 import json
-
 from flask import jsonify, Response
-
-HOST = Config.HOST
-PATH = Config.PATH
-API_KEY = Config.TICKETMASTER_API_KEY
 
 
 # def login_required(func):
@@ -185,16 +181,75 @@ def register():
 #     return render_template('index.html', title='Explore', posts=posts)
 
 
+@app.route('/nearby', methods=['GET', 'POST'])
+def nearby():
+    events_list = []
+    lat = request.args.get('lat')
+    lon = request.args.get('lon')
+    url = use_ticketmaster_api(apikey=app.config['TICKETMASTER_API_KEY'], lat=lat,lon=lon)
+    print(url)
+
+    with urllib.request.urlopen(url) as file:
+        data = file.read()
+        result = json.loads(data,encoding='utf-8')
+    if result:
+        event_id = ''
+        event_name = ''
+        event_rating = ''
+        event_address = ''
+        event_img = ''
+        event_url = ''
+        event_distance = ''
+        for event in result["_embedded"]["events"]:
+            if "id" in event:
+                event_id = event['id']
+                # print(event_id)
+            if "name" in event:
+                event_name = event['name']
+                # print(event_name)
+            if "_embedded" in event:
+                address_dict = event['_embedded']['venues'][0].get("address")
+                address = ""
+                for addr in address_dict:
+                    address += address_dict[addr]
+                event_address = address
+                # print(event_address)
+            if "images" in event:
+                event_img = event['images'][0].get('url')
+            if "url" in event:
+                event_url = event.get('url')
+            if "distance" in event:
+                event_distance = event.get("distance",None)
+            e = Event(event_id, event_name, event_rating,event_address,event_img,event_url,event_distance)
+            events_list.append(e)
+            json_data = json.dumps(events_list,default=lambda o: o.__dict__, indent=10)
+        return Response(json_data)
+    else:
+        return None
+
+
+class Event(object):
+    def __init__(self, id, name, rating, address, img_url, event_url, distance):
+        self.id = id
+        self.name = name
+        self.rating = rating
+        self.address = address
+        self.img_url = img_url
+        self.event_url = event_url
+        self.distance = distance
+
+
+def use_ticketmaster_api(**kwargs):
+    host = app.config['HOST']
+    path = app.config['PATH']
+    url = f'''{host}{path}'''
+    response = requests.get(url, params=kwargs)
+    return response.url
+
+
 @app.route('/search')
 def search():
-    url = f'''{HOST}{PATH}?apikey={API_KEY}&keyword=San%20Jose'''
-    with urllib.request.urlopen(url) as file:
-        page = file.read()
-        data = json.loads(page, encoding="utf-8")
-
-    print(data)
     eventsJSON = []
-
     if data["_embedded"]:
         for event in data["_embedded"]["events"]:
             e = Event()
@@ -224,5 +279,4 @@ def search():
 
     """data["_embedded"]["events"]["images"]   """
     return Response(json.dumps(eventsJSON, indent=4, sort_keys=True))
-
 
