@@ -59,13 +59,12 @@ def login():
     if request.method == 'POST':
         username = request.json.get("user_id")
         password = request.json.get("password")
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username, password_hash=password).first()
         if user:
-            if user.password_hash == password:
-                session['user_id'] = username
-                session.permanent = True
-                return jsonify(status="OK", user_id=username, name='ximin chen') # name is hardcoded
-            abort(400)
+            session['user_id'] = username
+            session.permanent = True
+            return jsonify(status="OK", user_id=username, name='ximin chen') # name is hardcoded
+        abort(400)
     return jsonify(status='error')
 
 
