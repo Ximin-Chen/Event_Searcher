@@ -13,7 +13,6 @@ from datetime import datetime
 import json
 from flask import jsonify, Response
 
-
 # def login_required(func):
 #         @wraps(func)
 #         def decorated_function(*args, **kwargs):
@@ -185,12 +184,7 @@ def nearby():
     events_list = []
     lat = request.args.get('lat')
     lon = request.args.get('lon')
-    url = use_ticketmaster_api(apikey=app.config['TICKETMASTER_API_KEY'], lat=lat,lon=lon)
-    print(url)
-
-    with urllib.request.urlopen(url) as file:
-        data = file.read()
-        result = json.loads(data,encoding='utf-8')
+    result = use_ticketmaster_api(lat=lat,lon=lon)
     if result:
         event_id = ''
         event_name = ''
@@ -221,10 +215,28 @@ def nearby():
                 event_distance = event.get("distance",None)
             e = Event(event_id, event_name, event_rating,event_address,event_img,event_url,event_distance)
             events_list.append(e)
-            json_data = json.dumps(events_list,default=lambda o: o.__dict__, indent=10)
+            json_data = json.dumps(events_list, default=lambda o:o.__dict__, indent=10)
         return Response(json_data)
     else:
         return None
+
+
+@app.route('/search')
+def search():
+    events_list = []
+    keyword = request.args.get("keyword")
+    url = use_ticketmaster_api(apikey=app.config['TICKETMASTER_API_KEY'], keyword=keyword)
+    with urllib.request.urlopen(url) as file:
+        data = file.read()
+        result = json.loads(data, encoding='utf-8')
+    if result:
+        event_id = ''
+        event_name = ''
+        event_rating = ''
+        event_address = ''
+        event_img = ''
+        event_url = ''
+        event_distance = ''
 
 
 class Event(object):
@@ -239,43 +251,14 @@ class Event(object):
 
 
 def use_ticketmaster_api(**kwargs):
-    host = app.config['HOST']
-    path = app.config['PATH']
-    url = f'''{host}{path}'''
-    response = requests.get(url, params=kwargs)
-    return response.url
-
-
-@app.route('/search')
-def search():
-    eventsJSON = []
-    if data["_embedded"]:
-        for event in data["_embedded"]["events"]:
-            e = Event()
-            if event.get('id'):
-                e.id = event.get('id')
-            if event.get('name'):
-                e.name = event.get('name')
-            if event.get('rating'):
-                e.rating = event.get("rating", None)
-            if event.get('_embedded'):
-                address_dict = event.get('_embedded').get('venues')[0].get("address")
-                address = ""
-                for addr in address_dict:
-                    address += address_dict[addr]
-                e.address = address
-            if event.get('images'):
-                e.img_url = event.get('images')[0].get('url')
-            if event.get('url'):
-                e.event_url = event.get('url')
-            if event.get('distance'):
-                e.distance = event.get("distance", None)
-            """
-            db.session.add(e)
-            db.session.commit()
-            """
-            eventsJSON.append(event)
-
-    """data["_embedded"]["events"]["images"]   """
-    return Response(json.dumps(eventsJSON, indent=4, sort_keys=True))
+    if 'TICKETMASTER_API_KEY' not in app.config or \
+            not app.config['TICKETMASTER_API_KEY']:
+        raise Exception('Error: the Ticketmaster api is not configured.')
+    auth = {'apikey':  app.config['TICKETMASTER_API_KEY']}
+    url = "https://app.ticketmaster.com/discovery/v2/events.json"
+    auth.update(kwargs)
+    response = requests.get(url, params=auth)
+    if response.status_code != 200:
+        raise Exception('Error: Cannot find the exact api.')
+    return json.loads(response.content,encoding="utf-8")
 
