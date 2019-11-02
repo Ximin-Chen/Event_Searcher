@@ -247,7 +247,7 @@
         var result = JSON.parse(res);
 
         // successfully logged in
-        if (result.status === 'OK') {
+        if (result.status === 'OK') { //use standard http response code
         	showRegisterResult('Succesfully registered');
         } else {
         	showRegisterResult('User already existed');
