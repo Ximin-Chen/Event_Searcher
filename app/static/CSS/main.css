@@ -440,17 +440,32 @@ ul {
     padding: 15px;
    }
 
-   .event-header, .event-body {
+   .user {
+    margin: 10px;
+    padding: 15px;
+   }
+
+   .event-header, .event-body, .user-profile {
     align-items: center;
     display: flex;
     transition: background-color 100ms linear;
    }
 
-   .event-content {
+   .event-content{
     padding-left: 10px;
    }
 
+   .user-data {
+    padding-left: 10px;
+    width: 600px;
+   }
+
    .event-body-content *{
+    overflow: hidden;
+    word-wrap: break-word;
+   }
+
+   .user-profile *{
     overflow: hidden;
     word-wrap: break-word;
    }
@@ -459,11 +474,13 @@ ul {
     font-size: 2em;
    }
 
+   
+
    .event-category {
     
    }
 
-   .event-address, .event-time {
+   .event-address, .event-time, .user-favorites {
     font-size: 14px;
     font-weight: 500;
     
@@ -473,7 +490,7 @@ ul {
 
    }
    
-   .event-header, .event-body {
+   .event-header, .event-body, .user-profile {
     margin-top: 20px;
    }
 
@@ -481,16 +498,26 @@ ul {
        margin-bottom: 20px;
    }
 
-   .event-sidebar {
+   .user-body * {
+    margin-bottom: 20px;
+}
+
+   .event-sidebar{
     width: 1200px;
    }
 
-   .event-body-content {
+   .user-sidebar {
+    width: 400px;
+    position: right;
+   }
+   
+
+   .event-body-content, .user-body-content{
     display: flex;  
     flex-direction: column;
    }
 
-   .event-description {
+   .event-description, .user-description {
     text-align: left;
    }
 
@@ -498,7 +525,11 @@ ul {
     font-size: 1.6em;
    }
 
-   .event-body {
+   .user-body .about {
+    font-size: 1.6em;
+   }
+
+   .event-body, .user-body {
     display: flex;                  /* establish flex container */
     flex-direction: row;            /* default value; can be omitted */
     flex-wrap: nowrap;              /* default value; can be omitted */
