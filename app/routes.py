@@ -53,7 +53,7 @@ def login():
     if request.method == 'GET':
         if session.get('user_id'):
             user_id = session['user_id']
-            return jsonify(status='OK',user_id=user_id,name='ximin chen') # name is hardcoded
+            return jsonify(status='OK',user_id=user_id,name=user_id)
         return jsonify(status='invalid session')
     if request.method == 'POST':
         username = request.json.get("user_id")
@@ -62,7 +62,7 @@ def login():
         if user:
             session['user_id'] = username
             session.permanent = True
-            return jsonify(status="OK", user_id=username, name='ximin chen') # name is hardcoded
+            return jsonify(status="OK", user_id=username, name=username, last_seen=user.last_seen)
         abort(400)
     return jsonify(status='error')
 
@@ -105,16 +105,31 @@ def register():
     return jsonify({'status': "OK"})
 
 
-
-@app.route('/user/<username>')
-@login_required
+#STILL NEED TO IMPLEMENT POST
+@app.route('/user')
 def user():
+    #Repurposed from /login route
+    if request.method == 'GET':
+        if session.get('user_id'):
+            user_id = session['user_id']
+            user = User.query.filter_by(username=user_id).first()
+            return jsonify(status='OK',user_id=user_id,name=user_id, last_seen=user.last_seen, about_me=user.about_me)
+        return jsonify(status='invalid session')
+    if request.method == 'POST':
+        """ 
+        
+        TO IMPLEMENT FOR UPDATING USER INFO
+
+        """
+        return jsonify(status='error')
+    return jsonify(status='error')
+
     #user = User.query.filter_by(username=username).first_or_404()
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
-    return render_template('user.html')
+    #posts = [
+    #    {'author': user, 'body': 'Test post #1'},
+    #    {'author': user, 'body': 'Test post #2'}
+    #]
+    #return render_template('user.html')
     #, user=user, posts=posts, title='Profile')
 
 #
