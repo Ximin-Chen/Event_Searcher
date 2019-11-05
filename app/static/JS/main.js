@@ -20,6 +20,9 @@
     document.querySelector('#nearby-btn').addEventListener('click', loadNearbyItems);
     document.querySelector('#fav-btn').addEventListener('click', loadFavoriteItems);
     document.querySelector('#recommend-btn').addEventListener('click', loadRecommendedItems);
+    //Need to Have Listener for User Profile
+    document.querySelector('#avatar').addEventListener('click', getUserInfo);
+    console.log("PASS");
     validateSession();
     // onSessionValid({"user_id":"1111","name":"John Smith","status":"OK"});
   }
@@ -269,6 +272,45 @@
     document.querySelector('#register-result').innerHTML = '';
   }
 
+  // -----------------------------------
+  // User Profile
+  // -----------------------------------
+
+  function getUserInfo() {
+    // make AJAX call
+    ajax('GET', './user', JSON.stringify({}),
+      // successful callback
+      function(res) {
+        var user = JSON.parse(res);
+        if (!user) {
+          showWarningMessage('Invalid User');
+        } else {
+          /**
+           * DISPLAY USER INFO
+           *  - Currently retrieving: status; user_id; (user)name; last_seen; about_me
+           */
+          showUserProfile(user);
+        }
+      },
+      // failed callback
+      function() {
+        showErrorMessage('Cannot load nearby items.');
+      }
+    );
+  }
+
+  /**
+   * Used to Show User Profile Page (on index.html)
+   */
+  function showUserProfile(user){
+    console.log(user);
+    //Hide unnecessary div components
+
+    //Show User Profile Component
+
+    //Load Profile with User's info
+
+  }
 
   // -----------------------------------
   // Helper Functions
