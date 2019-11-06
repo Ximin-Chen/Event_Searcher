@@ -113,7 +113,7 @@ def user():
         if session.get('user_id'):
             user_id = session['user_id']
             user = User.query.filter_by(username=user_id).first()
-            return jsonify(status='OK',user_id=user_id,name=user_id, last_seen=user.last_seen, about_me=user.about_me)
+            return jsonify(status='OK',user_id=user_id,name=user_id, last_seen=user.last_seen, about_me=user.about_me, first_name=user.first_name, last_name=user.last_name)
         return jsonify(status='invalid session')
     if request.method == 'POST':
         """ 
