@@ -294,7 +294,7 @@
       },
       // failed callback
       function() {
-        showErrorMessage('Cannot load nearby items.');
+        showErrorMessage('Failed to load user.');
       }
     );
   }
@@ -305,10 +305,26 @@
   function showUserProfile(user){
     console.log(user);
     //Hide unnecessary div components
+    var itemList = document.querySelector('#item-list');
+    var welcomeMsg = document.querySelector('#welcome-msg');
+    var userForm = document.querySelector('#user');
+
+    hideElement(itemList);
+    hideElement(welcomeMsg);
 
     //Show User Profile Component
+    showElement(userForm);
 
     //Load Profile with User's info
+    document.querySelector(".user-id").textContent = `Username: ${user.user_id}`;
+    document.querySelector(".user-name").textContent = `Name: ${user.first_name} ${user.last_name}`;
+    document.querySelector(".user-login").textContent = `Last seen at ${user.last_seen}`;
+    document.querySelector(".user-description").textContent = `${user.about}`;
+
+    /**
+     * STILL NEED USER PROFILE IMG IN DB
+     * STILL NEED TO QUERY WITH FLASK FOR FAVORITES
+     */
 
   }
 
@@ -416,6 +432,12 @@
     console.log('loadNearbyItems');
     activeBtn('nearby-btn');
 
+    //Hide Uneccessary Elements & Show Nearby list
+    var itemList = document.querySelector('#item-list');
+    var userProfile = document.querySelector('#user');
+    showElement(itemList);
+    hideElement(userProfile);
+
     // The request parameters
     var url = './nearby';
     var params = 'user_id=' + user_id + '&lat=' + lat + '&lon=' + lng;
@@ -448,6 +470,12 @@
    */
   function loadFavoriteItems() {
     activeBtn('fav-btn');
+
+    //Hide User profile if open
+    var itemList = document.querySelector('#item-list');
+    var userProfile = document.querySelector('#user');
+    showElement(itemList);
+    hideElement(userProfile);
 
     // request parameters
     var url = './history';
