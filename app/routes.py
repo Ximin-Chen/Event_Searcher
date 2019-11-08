@@ -105,8 +105,8 @@ def register():
     return jsonify({'status': "OK"})
 
 
-#STILL NEED TO IMPLEMENT POST
-@app.route('/user')
+#Used to retrieving/updating user info
+@app.route('/user', methods=['GET', 'POST'])
 def user():
     #Repurposed from /login route
     if request.method == 'GET':
@@ -121,7 +121,16 @@ def user():
         TO IMPLEMENT FOR UPDATING USER INFO
 
         """
-        return jsonify(status='error')
+        if session.get('user_id'):
+            user_id = session['user_id']
+            user = User.query.filter_by(username=user_id).first()
+            
+            about_me = request.json.get("about_me")
+            user.about_me = about_me or "Empty"            
+            db.session.commit()
+
+            return jsonify(status='OK',user_id=user_id,name=user_id, last_seen=user.last_seen, about_me=user.about_me, first_name=user.first_name, last_name=user.last_name)
+        return jsonify(status='invalid session')
     return jsonify(status='error')
 
     #user = User.query.filter_by(username=username).first_or_404()

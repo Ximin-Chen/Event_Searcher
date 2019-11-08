@@ -517,7 +517,7 @@ ul {
     flex-direction: column;
    }
 
-   .event-description, .user-description {
+   .event-description, .user-description, .user-description-edit {
     text-align: left;
    }
 
@@ -534,6 +534,15 @@ ul {
     flex-direction: row;            /* default value; can be omitted */
     flex-wrap: nowrap;              /* default value; can be omitted */
     justify-content: space-between; /* switched from default (flex-start, see below) */
+   }
+
+   .user-body {
+       flex-direction: column;
+   }
+
+   .user-description-edit {
+       height: 100px;
+       resize: none;
    }
 
 

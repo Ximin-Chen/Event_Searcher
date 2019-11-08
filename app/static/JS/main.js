@@ -22,6 +22,7 @@
     document.querySelector('#recommend-btn').addEventListener('click', loadRecommendedItems);
     //Need to Have Listener for User Profile
     document.querySelector('#avatar').addEventListener('click', getUserInfo);
+    document.querySelector('#edit-profile-btn').addEventListener('click', swapUserProfileView);
     console.log("PASS");
     validateSession();
     // onSessionValid({"user_id":"1111","name":"John Smith","status":"OK"});
@@ -84,6 +85,7 @@
     var avatar = document.querySelector('#avatar');
     var welcomeMsg = document.querySelector('#welcome-msg');
     var logoutBtn = document.querySelector('#logout-link');
+    var userProfile = document.querySelector('#user');
 
     hideElement(itemNav);
     hideElement(itemList);
@@ -91,6 +93,7 @@
     hideElement(logoutBtn);
     hideElement(welcomeMsg);
     hideElement(registerForm);
+    hideElement(userProfile);
 
     clearLoginError();
     showElement(loginForm);
@@ -299,33 +302,93 @@
     );
   }
 
+  function updateUserInfo() {
+
+    var about_me = document.querySelector('.user-description-edit').value;
+
+    var url = './user';
+    var req = JSON.stringify({
+      about_me: about_me
+      //Can add other stuff later for future impl.
+    });
+
+    ajax('POST', url, req,
+      // successful callback
+      function(res) {
+        var user = JSON.parse(res);
+
+        // successfully logged in
+        if (user.status === 'OK') { //use standard http response code
+        	showUserProfile(user)
+        } else {
+        	showErrorMessage('Failed to update user.');
+        }
+      },
+
+      // error
+      function() {
+  	    showRegisterResult('Failed to send update.');
+      },
+      true);
+  }
+
+  /**
+   * Used to swap between normal and edit mode for profile
+   */
+  function swapUserProfileView(){
+    console.log("SWAPPED");
+    var userDesc = document.querySelector('.user-description');
+    var userDescEdit = document.querySelector('.user-description-edit');
+
+    (userDesc.style.display === 'none') ? showElement(userDesc) : hideElement(userDesc);
+    (userDescEdit.style.display === 'none') ? showElement(userDescEdit) : hideElement(userDescEdit);
+
+    if(userDesc.style.display !== 'none') updateUserInfo();
+    else userDescEdit.value = userDesc.textContent;
+  }
+
   /**
    * Used to Show User Profile Page (on index.html)
    */
   function showUserProfile(user){
-    console.log(user);
     //Hide unnecessary div components
     var itemList = document.querySelector('#item-list');
     var welcomeMsg = document.querySelector('#welcome-msg');
     var userForm = document.querySelector('#user');
 
+    var userDesc = document.querySelector('.user-description');
+    var userDescEdit = document.querySelector('.user-description-edit');
+
     hideElement(itemList);
     hideElement(welcomeMsg);
+    hideElement(userDescEdit);
 
     //Show User Profile Component
     showElement(userForm);
+    showElement(userDesc);
 
     //Load Profile with User's info
     document.querySelector(".user-id").textContent = `Username: ${user.user_id}`;
     document.querySelector(".user-name").textContent = `Name: ${user.first_name} ${user.last_name}`;
     document.querySelector(".user-login").textContent = `Last seen at ${user.last_seen}`;
-    document.querySelector(".user-description").textContent = `${user.about}`;
+    document.querySelector(".user-description").textContent = `${user.about_me}`;
 
     /**
      * STILL NEED USER PROFILE IMG IN DB
      * STILL NEED TO QUERY WITH FLASK FOR FAVORITES
      */
 
+  }
+
+  /**
+   * Helper function to automatically hide 'edit' portion
+   */
+  function resetUserDescView(){
+    var userDesc = document.querySelector('.user-description');
+    var userDescEdit = document.querySelector('.user-description-edit');
+
+    showElement(userDesc);
+    hideElement(userDescEdit);
   }
 
   // -----------------------------------
@@ -433,10 +496,7 @@
     activeBtn('nearby-btn');
 
     //Hide Uneccessary Elements & Show Nearby list
-    var itemList = document.querySelector('#item-list');
-    var userProfile = document.querySelector('#user');
-    showElement(itemList);
-    hideElement(userProfile);
+    focusOnList();
 
     // The request parameters
     var url = './nearby';
@@ -472,10 +532,7 @@
     activeBtn('fav-btn');
 
     //Hide User profile if open
-    var itemList = document.querySelector('#item-list');
-    var userProfile = document.querySelector('#user');
-    showElement(itemList);
-    hideElement(userProfile);
+    focusOnList();
 
     // request parameters
     var url = './history';
@@ -561,6 +618,14 @@
           favIcon.className = favorite ? 'fa fa-heart' : 'fa fa-heart-o';
         }
       });
+  }
+
+  function focusOnList(){
+    var itemList = document.querySelector('#item-list');
+    var userProfile = document.querySelector('#user');
+    showElement(itemList);
+    hideElement(userProfile);
+    resetUserDescView();
   }
 
   // -------------------------------------
