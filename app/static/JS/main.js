@@ -371,7 +371,7 @@
     document.querySelector(".user-id").textContent = `Username: ${user.user_id}`;
     document.querySelector(".user-name").textContent = `Name: ${user.first_name} ${user.last_name}`;
     document.querySelector(".user-login").textContent = `Last seen at ${user.last_seen}`;
-    document.querySelector(".user-description").textContent = `${user.about_me}`;
+    userDesc.textContent = `${user.about_me}`;
 
     /**
      * STILL NEED USER PROFILE IMG IN DB

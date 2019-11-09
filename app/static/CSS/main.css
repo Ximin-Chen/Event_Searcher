@@ -540,9 +540,18 @@ ul {
        flex-direction: column;
    }
 
+   .user-description {
+       white-space: pre;
+   }
+
    .user-description-edit {
        height: 100px;
        resize: none;
    }
 
+   #edit-profile-btn {
+       max-width: 100px;
+       text-align: center;
+       padding: 6px;
+   }
 
