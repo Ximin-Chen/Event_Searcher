@@ -2,7 +2,13 @@ from app import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from app import login
 from hashlib import md5
+
+
+@login.user_loader
+def lode_user(user_id):
+    return User.query.get(user_id)
 
 
 # assistant table between two users
@@ -12,12 +18,12 @@ followers = db.Table('followers',
 )
 
 
-class User(UserMixin, db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(128),index=True, unique=True)
-    first_name = db.Column(db.String(128),index=True)
-    last_name = db.Column(db.String(128),index=True)
+    username = db.Column(db.String(64), unique=True)
+    email= db.Column(db.String(128),index=True, unique=True)
+    firstname = db.Column(db.String(128))
+    lastname = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
@@ -60,6 +66,7 @@ class User(UserMixin, db.Model):
         return followed.union(own).order_by(Post.timestamp.desc())
 
 
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(256))
@@ -78,3 +85,9 @@ class Event(db.Model):
     img_url = db.Column(db.String(256), index=True)
     event_url = db.Column(db.String(256), index=True)
     distance = db.Column(db.Float, index=True)
+
+
+class Favourite(db.Model):
+    user_id = db.Column(db.String(256), primary_key=True)
+    event_id = db.Column(db.String(256), primary_key=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
