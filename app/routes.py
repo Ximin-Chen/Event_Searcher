@@ -1,3 +1,7 @@
+from app import app,db
+from flask import render_template, flash, redirect, url_for, abort
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
+
 import urllib
 from functools import wraps
 
@@ -10,7 +14,7 @@ from app.models import User, Post, Event
 from flask import request, abort, session
 from werkzeug.urls import url_parse
 from datetime import datetime
-import json
+import json, requests
 from flask import jsonify, Response
 
 # def login_required(func):
@@ -75,17 +79,6 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('index'))
-    # form = RegistrationForm()
-    # if form.validate_on_submit():
-    #     user = User(username=form.username.data, email=form.email.data)
-    #     user.set_pw(form.pw.data)
-    #     db.session.add(user)
-    #     db.session.commit()
-    #     flash('Congratulations, you are a new registered user!')
-    #     return redirect(url_for('login'))
-    # return render_template('register.html', title='Register', form=form)
     username = request.json.get("user_id")
     password = request.json.get("password")
     # email = request.json.get('email') # miss Email address in the frontend now.
@@ -104,11 +97,53 @@ def register():
     db.session.commit()
     return jsonify({'status': "OK"})
 
+@app.route('/nearby', methods=['GET', 'POST'])
+def nearby():
+    if not session:
+        abort(403)
+    events_list = []
+    lat = request.args.get('lat')
+    lon = request.args.get('lon')
+    print(lat, lon);
+    result = use_ticketmaster_api(lat=lat,lon=lon)
+    if result:
+        event_id = ''
+        event_name = ''
+        event_rating = ''
+        event_address = ''
+        event_img = ''
+        event_url = ''
+        event_distance = ''
+        for event in result["_embedded"]["events"]:
+            if "id" in event:
+                event_id = event['id']
+            if "name" in event:
+                event_name = event['name']
+            if "_embedded" in event:
+                address_dict = event['_embedded']['venues'][0].get("address")
+                address = ""
+                for addr in address_dict:
+                    address += address_dict[addr]
+                event_address = address
+            if "images" in event:
+                event_img = event['images'][0].get('url')
+            if "url" in event:
+                event_url = event.get('url')
+            if "distance" in event:
+                event_distance = event.get("distance",None)
+            e = Event(event_id, event_name, event_rating,event_address,event_img,event_url,event_distance)
+            events_list.append(e)
+            json_data = json.dumps(events_list, default=lambda o:o.__dict__, indent=10)
+        return Response(json_data)
+    else:
+        return None
 
+
+# Used to retrieving/updating user info
 #Used to retrieving/updating user info
 @app.route('/user', methods=['GET', 'POST'])
 def user():
-    #Repurposed from /login route
+    # Repurposed from /login route
     if request.method == 'GET':
         if session.get('user_id'):
             user_id = session['user_id']
@@ -116,11 +151,6 @@ def user():
             return jsonify(status='OK',user_id=user_id,name=user_id, last_seen=user.last_seen, about_me=user.about_me, first_name=user.first_name, last_name=user.last_name)
         return jsonify(status='invalid session')
     if request.method == 'POST':
-        """ 
-        
-        TO IMPLEMENT FOR UPDATING USER INFO
-
-        """
         if session.get('user_id'):
             user_id = session['user_id']
             user = User.query.filter_by(username=user_id).first()
@@ -132,21 +162,6 @@ def user():
             return jsonify(status='OK',user_id=user_id,name=user_id, last_seen=user.last_seen, about_me=user.about_me, first_name=user.first_name, last_name=user.last_name)
         return jsonify(status='invalid session')
     return jsonify(status='error')
-
-    #user = User.query.filter_by(username=username).first_or_404()
-    #posts = [
-    #    {'author': user, 'body': 'Test post #1'},
-    #    {'author': user, 'body': 'Test post #2'}
-    #]
-    #return render_template('user.html')
-    #, user=user, posts=posts, title='Profile')
-
-#
-# @app.before_request
-# def before_request():
-#     if current_user.is_authenticated:
-#         current_user.last_seen = datetime.utcnow()
-#         db.session.commit()
 
 
 @app.route("/edit_profile", methods=['GET','POST'])
@@ -204,12 +219,13 @@ def edit_profile():
 #     return render_template('index.html', title='Explore', posts=posts)
 
 
-@app.route('/nearby', methods=['GET', 'POST'])
-def nearby():
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if not session:
+        abort(403)
     events_list = []
-    lat = request.args.get('lat')
-    lon = request.args.get('lon')
-    result = use_ticketmaster_api(lat=lat,lon=lon)
+    keyword = request.args.get('keyword')
+    result = use_ticketmaster_api(keyword=keyword)
     if result:
         event_id = ''
         event_name = ''
@@ -221,17 +237,14 @@ def nearby():
         for event in result["_embedded"]["events"]:
             if "id" in event:
                 event_id = event['id']
-                # print(event_id)
             if "name" in event:
                 event_name = event['name']
-                # print(event_name)
             if "_embedded" in event:
                 address_dict = event['_embedded']['venues'][0].get("address")
                 address = ""
                 for addr in address_dict:
                     address += address_dict[addr]
                 event_address = address
-                # print(event_address)
             if "images" in event:
                 event_img = event['images'][0].get('url')
             if "url" in event:
@@ -244,25 +257,6 @@ def nearby():
         return Response(json_data)
     else:
         return None
-
-
-@app.route('/search')
-def search():
-    events_list = []
-    keyword = request.args.get("keyword")
-    url = use_ticketmaster_api(apikey=app.config['TICKETMASTER_API_KEY'], keyword=keyword)
-    with urllib.request.urlopen(url) as file:
-        data = file.read()
-        result = json.loads(data, encoding='utf-8')
-    if result:
-        event_id = ''
-        event_name = ''
-        event_rating = ''
-        event_address = ''
-        event_img = ''
-        event_url = ''
-        event_distance = ''
-
 
 class Event(object):
     def __init__(self, id, name, rating, address, img_url, event_url, distance):
