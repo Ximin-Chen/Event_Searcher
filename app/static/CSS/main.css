@@ -555,3 +555,59 @@ ul {
        padding: 6px;
    }
 
+   body{margin-top:20px;}
+
+   /*COMMENT SECTION*/
+   .panel-body {
+    width: 800px;
+}
+
+.comment-wrapper .panel-body {
+    max-height:650px;
+    overflow:auto;
+}
+
+.comment-wrapper .media-list .media img {
+    width:64px;
+    height:64px;
+    border:2px solid #e5e7e8;
+}
+
+.comment-wrapper .media-list .media {
+    
+    margin-bottom:30px;/*AVOIDS Bullet show*/
+}
+
+::-webkit-input-placeholder {
+    color: peachpuff;
+    font-size: 13px;
+  }
+  ::-moz-placeholder {
+    color: peachpuff;
+    font-size: 13px;
+  }
+  :-ms-input-placeholder {
+    color: peachpuff;
+    font-size: 13px;
+  }
+  ::placeholder {
+    color: grey;
+    font-size: 13px;
+    
+  }
+  .form-control{
+    width: 700px; 
+  }
+  .buttonComment{
+    position: relative;
+    width: 50px; 
+    height: 40px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    top: -50%;
+    bottom: 100%;
+  }
+      
+
