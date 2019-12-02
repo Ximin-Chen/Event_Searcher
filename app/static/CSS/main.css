@@ -558,8 +558,13 @@ ul {
    body{margin-top:20px;}
 
    /*COMMENT SECTION*/
-   .panel-body {
-    width: 800px;
+.panel-body {
+    /* width: 800px; */
+}
+
+.comment-submission {
+    display: flex;
+    flex-direction: row;
 }
 
 .comment-wrapper .panel-body {

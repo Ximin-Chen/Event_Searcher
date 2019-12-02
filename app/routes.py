@@ -12,6 +12,7 @@ from werkzeug.urls import url_parse
 from datetime import datetime
 import json
 from flask import jsonify, Response
+from sqlalchemy import desc
 
 # def login_required(func):
 #         @wraps(func)
@@ -164,6 +165,31 @@ def edit_profile():
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
 
+# Use route for getting event
+#   Event id should be passed to the url
+@app.route('/event/<id>', methods=['GET', 'POST'])
+def get_event(id):
+    if request.method == 'GET' or request.method == 'POST':
+        event_id = id
+        event = db.session.query(Event).filter_by(id=event_id).first()
+        if event:
+
+            if request.method == "POST":
+                if session.get('event_id') and session.get("user_id") and session.get("body"):
+                    comment = Post(id=event_id, body=session["body"], timestamp=datetime.utcnow(), user_id=session["user_id"])
+                    db.session.add(comment)
+                return jsonify(status="ERROR", error="Insufficent data for posting comment")
+            #endif
+
+            comments = Post.query.filter_by(id=event_id).order_by(Post.timestamp.desc()).all()
+            myJSON = json.dumps({"status": "OK", "name": event.name, "rating": event.rating, "address": event.address, 
+                                "img_url": event.img_url, "event_url": event.event_url, 
+                                "comments": comments})
+
+            return Response(myJSON)
+        return jsonify(status="ERROR", error=f"Event '{event_id}' not found")
+    return jsonify(status="ERROR", error=f"Request '{request.method}' is not covered")
+
 #
 # @app.route('/follow/<username>')
 # @login_required
@@ -264,15 +290,15 @@ def search():
         event_distance = ''
 
 
-class Event(object):
-    def __init__(self, id, name, rating, address, img_url, event_url, distance):
-        self.id = id
-        self.name = name
-        self.rating = rating
-        self.address = address
-        self.img_url = img_url
-        self.event_url = event_url
-        self.distance = distance
+#class Event(object):
+#    def __init__(self, id, name, rating, address, img_url, event_url, distance):
+#        self.id = id
+#        self.name = name
+#        self.rating = rating
+#        self.address = address
+#        self.img_url = img_url
+#        self.event_url = event_url
+#        self.distance = distance
 
 
 def use_ticketmaster_api(**kwargs):

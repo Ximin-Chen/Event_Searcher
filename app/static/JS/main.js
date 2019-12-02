@@ -332,6 +332,37 @@
       true);
   }
 
+  // -----------------------------------
+  // Single Event
+  // -----------------------------------
+
+  function getEventInfo(event_id){
+    // make AJAX call
+    ajax('GET', `./event/${event_id}`, JSON.stringify({}),
+      // successful callback
+      function(res) {
+        var event = JSON.parse(res);
+        if (event.status !== "OK") {
+          showWarningMessage('Invalid User');
+        } else {
+          showEventPage(event);
+        }
+      },
+      // failed callback
+      function() {
+        showErrorMessage('Failed to load user.');
+      }
+    );
+  }
+
+  function showEventPage(event){
+    /**
+     * NEED TO COMPLETE
+     */
+  }
+
+  // --- END OF Single Event ---
+
   /**
    * Used to swap between normal and edit mode for profile
    */

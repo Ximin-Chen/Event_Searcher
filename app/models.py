@@ -78,3 +78,6 @@ class Event(db.Model):
     img_url = db.Column(db.String(256), index=True)
     event_url = db.Column(db.String(256), index=True)
     distance = db.Column(db.Float, index=True)
+
+    def __repr__(self):
+        return f'<Event {self.id}>'
