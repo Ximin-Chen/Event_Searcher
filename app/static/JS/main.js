@@ -20,6 +20,10 @@
     document.querySelector('#nearby-btn').addEventListener('click', loadNearbyItems);
     document.querySelector('#fav-btn').addEventListener('click', loadFavoriteItems);
     document.querySelector('#recommend-btn').addEventListener('click', loadRecommendedItems);
+    document.querySelector('#search-btn').addEventListener('click', searchEventByKeyword);
+    document.querySelector('#avatar').addEventListener('click', getUserInfo);
+    document.querySelector('#edit-profile-btn').addEventListener('click', swapUserProfileView);
+
     validateSession();
     // onSessionValid({"user_id":"1111","name":"John Smith","status":"OK"});
   }
@@ -49,7 +53,7 @@
   }
 
   function onSessionValid(result) {
-    user_id = result.id;
+    user_id = result.user_id;
     user_fullname = result.name;
 
     var loginForm = document.querySelector('#login-form');
@@ -59,8 +63,11 @@
     var avatar = document.querySelector('#avatar');
     var welcomeMsg = document.querySelector('#welcome-msg');
     var logoutBtn = document.querySelector('#logout-link');
+    var searchInput = document.querySelector('#search-option');
+    var userForm = document.querySelector('#user');
+    var singleEvent = document.querySelector('#event');
 
-    welcomeMsg.innerHTML = 'Welcome, ' + result.name;
+    welcomeMsg.innerHTML = 'Welcome, ' + user_fullname;
 
     showElement(itemNav);
     showElement(itemList);
@@ -69,6 +76,9 @@
     showElement(logoutBtn, 'inline-block');
     hideElement(loginForm);
     hideElement(registerForm);
+    hideElement(searchInput);
+    hideElement(userForm);
+    hideElement(singleEvent);
 
     initGeoLocation();
   }
@@ -81,6 +91,9 @@
     var avatar = document.querySelector('#avatar');
     var welcomeMsg = document.querySelector('#welcome-msg');
     var logoutBtn = document.querySelector('#logout-link');
+    var searchInput = document.querySelector('#search-option');
+    var userForm = document.querySelector('#user');
+    var singleEvent = document.querySelector('#event');
 
     hideElement(itemNav);
     hideElement(itemList);
@@ -88,10 +101,38 @@
     hideElement(logoutBtn);
     hideElement(welcomeMsg);
     hideElement(registerForm);
+    hideElement(searchInput);
+    hideElement(userForm);
+    hideElement(singleEvent);
 
     clearLoginError();
     showElement(loginForm);
   }
+
+  function onNearBySession() {
+    var searchInput = document.querySelector('#search-option');
+    var itemList = document.querySelector('#item-list');
+    var singleEvent = document.querySelector('#event');
+    var userForm = document.querySelector('#user');
+    hideElement(userForm);
+    hideElement(searchInput);
+    hideElement(singleEvent);
+    showElement(itemList);
+
+  }
+
+  function onSearchSession() {
+    var searchInput = document.querySelector('#search-option');
+    var itemList = document.querySelector('#item-list');
+    var singleEvent = document.querySelector('#event');
+    var userForm = document.querySelector('#user');
+
+    showElement(searchInput);
+    hideElement(itemList);
+    hideElement(singleEvent);
+    hideElement(userForm);
+  }
+
 
   function hideElement(element) {
     element.style.display = 'none';
@@ -110,6 +151,8 @@
     var avatar = document.querySelector('#avatar');
     var welcomeMsg = document.querySelector('#welcome-msg');
     var logoutBtn = document.querySelector('#logout-link');
+    var searchInput = document.querySelector('#search-by-keyword');
+    var userProfile = document.querySelector('#user');
 
     hideElement(itemNav);
     hideElement(itemList);
@@ -117,6 +160,8 @@
     hideElement(logoutBtn);
     hideElement(welcomeMsg);
     hideElement(loginForm);
+    hideElement(searchInput);
+    hideElement(userProfile);
     
     clearRegisterResult();
     showElement(registerForm);
@@ -210,6 +255,7 @@
     document.querySelector('#login-error').innerHTML = '';
   }
 
+
   // -----------------------------------
   // Register
   // -----------------------------------
@@ -247,7 +293,7 @@
         var result = JSON.parse(res);
 
         // successfully logged in
-        if (result.status === 'OK') { //use standard http response code
+        if (result.status === 'OK') { 
         	showRegisterResult('Succesfully registered');
         } else {
         	showRegisterResult('User already existed');
@@ -268,6 +314,124 @@
   function clearRegisterResult() {
     document.querySelector('#register-result').innerHTML = '';
   }
+
+  // -----------------------------------
+  // User Profile
+  // -----------------------------------
+
+  function getUserInfo() {
+    // make AJAX call
+    ajax('GET', './user', JSON.stringify({}),
+      // successful callback
+      function(res) {
+        var user = JSON.parse(res);
+        if (!user) {
+          showWarningMessage('Invalid User');
+        } else {
+          /**
+           * DISPLAY USER INFO
+           *  - Currently retrieving: status; user_id; (user)name; last_seen; about_me
+           */
+          showUserProfile(user);
+        }
+      },
+      // failed callback
+      function() {
+        showErrorMessage('Failed to load user.');
+      }
+    );
+  }
+
+  function updateUserInfo() {
+
+    var about_me = document.querySelector('.user-description-edit').value;
+
+    var url = './user';
+    var req = JSON.stringify({
+      about_me: about_me
+      //Can add other stuff later for future impl.
+    });
+
+    ajax('POST', url, req,
+      // successful callback
+      function(res) {
+        var user = JSON.parse(res);
+
+        // successfully logged in
+        if (user.status === 'OK') { //use standard http response code
+        	showUserProfile(user)
+        } else {
+        	showErrorMessage('Failed to update user.');
+        }
+      },
+
+      // error
+      function() {
+  	    showRegisterResult('Failed to send update.');
+      },
+      true);
+  }
+
+  /**
+   * Used to swap between normal and edit mode for profile
+   */
+  function swapUserProfileView(){
+    console.log("SWAPPED");
+    var userDesc = document.querySelector('.user-description');
+    var userDescEdit = document.querySelector('.user-description-edit');
+
+    (userDesc.style.display === 'none') ? showElement(userDesc) : hideElement(userDesc);
+    (userDescEdit.style.display === 'none') ? showElement(userDescEdit) : hideElement(userDescEdit);
+
+    if(userDesc.style.display !== 'none') updateUserInfo();
+    else userDescEdit.value = userDesc.textContent;
+  }
+
+  /**
+   * Used to Show User Profile Page (on index.html)
+   */
+  function showUserProfile(user){
+    //Hide unnecessary div components
+    var itemList = document.querySelector('#item-list');
+    var welcomeMsg = document.querySelector('#welcome-msg');
+    var userForm = document.querySelector('.user');
+    var searchInput = document.querySelector('#search-option')
+
+    var userDesc = document.querySelector('.user-description');
+    var userDescEdit = document.querySelector('.user-description-edit');
+
+    hideElement(itemList);
+    hideElement(welcomeMsg);
+    hideElement(userDescEdit);
+    hideElement(searchInput);
+    //Show User Profile Component
+    showElement(userForm);
+    // showElement(userDesc);
+
+    //Load Profile with User's info
+    document.querySelector(".user-id").textContent = `Username: ${user.user_id}`;
+    document.querySelector(".user-name").textContent = `Name: ${user.first_name} ${user.last_name}`;
+    document.querySelector(".user-login").textContent = `Last seen at ${user.last_seen}`;
+    userDesc.textContent = `${user.about_me}`;
+
+    /**
+     * STILL NEED USER PROFILE IMG IN DB
+     * STILL NEED TO QUERY WITH FLASK FOR FAVORITES
+     */
+
+  }
+
+  /**
+   * Helper function to automatically hide 'edit' portion
+   */
+  function resetUserDescView(){
+    var userDesc = document.querySelector('.user-description');
+    var userDescEdit = document.querySelector('.user-description-edit');
+
+    showElement(userDesc);
+    hideElement(userDescEdit);
+  }
+
 
 
   // -----------------------------------
@@ -373,7 +537,7 @@
   function loadNearbyItems() {
     console.log('loadNearbyItems');
     activeBtn('nearby-btn');
-
+    onNearBySession();
     // The request parameters
     var url = './nearby';
     var params = 'user_id=' + user_id + '&lat=' + lat + '&lon=' + lng;
@@ -400,6 +564,37 @@
     );
   }
 
+  function searchEventByKeyword() {
+    activeBtn('search-btn');
+    console.log("Search by keyword");
+    onSearchSession();
+    document.querySelector('#keyword-search-btn').addEventListener('click', search);
+
+  }
+
+  function search() {
+      var keyword = document.getElementById('search-by-keyword').value;
+      console.log(keyword);
+      var url = './search';
+      var params = 'user_id=' + user_id + '&keyword=' + keyword;
+      var data = null;
+      ajax('GET', url + '?' + params, data,
+           function (res) {
+         var items = JSON.parse(res);
+         if (!items || items.length === 0) {
+           showWarningMessage('No item.');
+         } else {
+           listItems(items);
+         }
+         }, function () {
+         showErrorMessage('Can find items.')
+           });
+      if (keyword) {
+        var itemList = document.querySelector('#item-list');
+        showElement(itemList);
+      }
+  }
+
   /**
    * API #2 Load favorite (or visited) items API end point: [GET]
    * /history?user_id=1111
@@ -407,8 +602,11 @@
   function loadFavoriteItems() {
     activeBtn('fav-btn');
 
+    //Hide User profile if open
+    focusOnList();
+
     // request parameters
-    var url = './history';
+    var url = './favorite';
     var params = 'user_id=' + user_id;
     var req = JSON.stringify({});
 
@@ -491,6 +689,36 @@
           favIcon.className = favorite ? 'fa fa-heart' : 'fa fa-heart-o';
         }
       });
+  }
+
+  function showEventDetail(item_id) {
+    // var url = './detail';
+    // var params = 'item_id=' + item_id;
+    // var data = null;
+    //
+    // ajax('GET', url+ '?' + params, data,
+    //     function(res) {
+    //   var event = JSON.parse(res);
+    //   document.getElementById('event-img').src = event.img_url;
+    //   document.getElementById('event-name').src = event.name;
+    //   // document.querySelector(".user-id").textContent = `Username: ${user.user_id}`;
+    //   onEventDetailSession();
+    // });
+  }
+  function onEventDetailSession() {
+    var itemList = document.querySelector('#item-list');
+    var searchInput = document.querySelector('#search-option');
+    var eventDetail = document.querySelector('#event');
+    hideElement(itemList);
+    hideElement(searchInput);
+    showElement(eventDetail);
+  }
+  function focusOnList(){
+    var itemList = document.querySelector('#item-list');
+    var userProfile = document.querySelector('#user');
+    showElement(itemList);
+    hideElement(userProfile);
+    resetUserDescView();
   }
 
   // -------------------------------------
@@ -576,6 +804,15 @@
     // category.innerHTML = 'Category: ' + item.categories.join(', ');
     // section.appendChild(category);
 
+
+    // details button
+    var detail = $create('button', {
+      className: 'item-detail-btn', type: 'submit'});
+    detail.innerHTML = "detail";
+    section.appendChild(detail);
+    detail.onclick = function () {
+      showEventDetail(item_id);
+    };
     // stars
     var stars = $create('div', {
       className: 'stars'

@@ -78,3 +78,8 @@ class Event(db.Model):
     img_url = db.Column(db.String(256), index=True)
     event_url = db.Column(db.String(256), index=True)
     distance = db.Column(db.Float, index=True)
+
+class Favourite(db.Model):
+    user_id = db.Column(db.String(256), primary_key=True)
+    event_id = db.Column(db.String(256), primary_key=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
