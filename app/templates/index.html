@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Recommendation</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/CSS/main.css">
+
+
+</head>
+<body>
+    <header class="top-header">
+        <nav class="top-nav">
+            <a href="#">Home</a>
+            <a href="">Profile</a>
+        </nav>
+        <span id="welcome-msg"></span>
+        <a id="logout-link" href="logout">Logout</a>
+        <button id="avatar" class="avatar fa fa-user fa-2x"></button>
+    </header>
+    <div class="container">
+        <header>
+            <p><span>Event<br />
+                Recommendation</span>
+            </p>
+        </header>
+
+        <section class="main-section">
+            <div id="login-form">
+                <label for="username">Username:</label>
+                <input id="username" name="username" type="text">
+                <label for="password">Password:</label>
+                <input id="password" name="password" type="password">
+                <button id="register-form-btn">New User? Register</button>
+                <button id="login-btn">Login</button>
+                <p id="login-error"></p>
+            </div>
+
+            <div id="register-form">
+                <label for="username">Username: *</label>
+                <input id="register-username" name="username" type="text">
+                <label for="password">Password: *</label>
+                <input id="register-password" name="password" type="password">
+                <label for="first-name">First Name: *</label>
+                <input id="register-first-name" name="first-name" type="text">
+                <label for="last-name">Last Name: *</label>
+                <input id="register-last-name" name="last-name" type="text">
+                <button id="login-form-btn">Back to Login</button>
+                <button id="register-btn">Register</button>
+                <p id="register-result"></p>
+            </div>
+
+            <aside id="item-nav">
+
+                <nav class="main-nav">
+                    <a href="#" id="nearby-btn" class="main-nav-btn active">
+                        <i class="fa fa-map-marker"></i> Nearby
+                    </a>
+                    <a href="#" id="search-btn" class="main-nav-btn">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="#" id="fav-btn" class="main-nav-btn">
+                        <i class="fa fa-heart"></i> My Favorites
+                    </a>
+
+                </nav>
+
+            </aside>
+<!--            SEARCH BAR-->
+            <div id="search-option" class="bar">
+                <form>
+                    <input id="search-by-keyword" type="text" placeholder="Search Event By Keyword">
+                    <button id="keyword-search-btn" type="submit"></button>
+                </form>
+            </div>
+
+<!--            EVENT LIST-->
+            <ul id="item-list">
+                <li class="item">
+                    <img alt="item image" src="../static/IMAGE/sf.jpg" />
+                    <div>
+                        <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                        <p class="item-category">Category: Sports</p>
+                        <div class="stars">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="item-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA</p>
+                    <div class="fav-link">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                </li>
+                <li class="item">
+                    <img alt="item image" src="../static/IMAGE/sf.jpg" />
+                    <div>
+                        <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                        <p class="item-category">Category: Sports</p>
+                        <div class="stars">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="item-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA</p>
+                    <div class="fav-link">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                </li>
+                <li class="item">
+                    <img alt="item image" src="../static/IMAGE/sf.jpg" />
+                    <div>
+                        <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                        <p class="item-category">Category: Sports</p>
+                        <div class="stars">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="item-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA</p>
+                    <div class="fav-link">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                </li>
+            </ul>
+
+<!--            Single Event-->
+            <div id="event" class="event">
+                <div class="event-header">
+                    <img alt="event image" id="event-img" src="../static/IMAGE/sf.jpg" />
+                    <div class="event-content">
+                        <a class="event-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                        <p class="event-category">Category: Sports</p>
+                        <div class="stars">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </div>
+<!--                    <div class="fav-link">-->
+<!--                        <i class="fa fa-heart"></i>-->
+<!--                    </div>-->
+                </div>
+
+                <div class="event-body">
+                    <div class="event-body-content">
+                        <div class="about">About</div>
+                        <div class="event-description">
+                            AAAAAAAAAAAAA
+                        </div>
+                    </div>
+                    <div class="event-sidebar">
+                        <div class="event-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA
+                        </div>
+                        <div class="event-time">sas</div>
+                    </div>
+                </div>
+            </div>
+
+
+<!--            user Profile-->
+            <div id="user" class="user">
+                <div class="user-profile">
+                    <img alt="user image" width="280" height="180" src="../static/IMAGE/user1.jpg" />
+                    <div class="user-data">
+                        <p class="user-id">Username: John56</p>
+                        <p class="user-name">Miller, John</p>
+                        <p class="user-login">Last Log-in: 04:30 pm</p>
+                    </div>
+
+                    <div class="user-sidebar">
+                        <div class="user-favorites">&hearts; Favorites <br />Warriors vs Oakland
+                            <br />Beatles Tribute
+                            <br />Music Fest 2019
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="user-body">
+                    <div class="user-body-content">
+                        <div class="about">About</div>
+                        <div class="user-description">
+                            I'm an entrepreneur and owner of a retail store.
+                            I'm interested in music and dance events.
+                            I can be a quiet guy, but after getting to know you I become
+                            very talkative.
+                            Looking for friends to go to events together.
+                            Looking for friends to go to events together.
+                            Looking for friends to go to events together.
+                        </div>
+                        <textarea class="user-description-edit" type="description"></textarea>
+                        <button id="edit-profile-btn">Edit</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </div>
+    <script src="https://rawgit.com/emn178/js-md5/master/build/md5.min.js"></script>
+    <script type="text/javascript" src="../static/js/main.js"></script>
+
+
+
+</body>
+</html>
+

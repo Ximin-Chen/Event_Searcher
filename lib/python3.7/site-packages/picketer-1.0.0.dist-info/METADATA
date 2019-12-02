@@ -1,0 +1,18 @@
+Metadata-Version: 2.0
+Name: picketer
+Version: 1.0.0
+Summary: Ticketmaster Discovery API client
+Home-page: https://github.com/arcward/picketer
+Author: Edward Wells
+Author-email: git@edward.sh
+License: MIT
+Keywords: Swagger,Ticketmaster Discovery API
+Platform: UNKNOWN
+Requires-Dist: certifi
+Requires-Dist: python-dateutil
+Requires-Dist: six (>=1.10)
+Requires-Dist: urllib3 (>=1.15)
+
+Swagger spec based on Ticketmaster Discovery API
+
+
