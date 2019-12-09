@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Event Recommendation</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../static/CSS/main.css">
 
-</head>
 
+</head>
 <body>
-    <!-- Body Header -->
     <header class="top-header">
         <nav class="top-nav">
             <a href="#">Home</a>
-            <a href="user">Profile</a>
+            <a href="">Profile</a>
         </nav>
         <span id="welcome-msg"></span>
         <a id="logout-link" href="logout">Logout</a>
@@ -22,12 +22,11 @@
     <div class="container">
         <header>
             <p><span>Event<br />
-                    Recommendation</span>
+                Recommendation</span>
             </p>
         </header>
 
         <section class="main-section">
-            <!-- Login Form -->
             <div id="login-form">
                 <label for="username">Username:</label>
                 <input id="username" name="username" type="text">
@@ -38,7 +37,6 @@
                 <p id="login-error"></p>
             </div>
 
-            <!-- Registration Form-->
             <div id="register-form">
                 <label for="username">Username: *</label>
                 <input id="register-username" name="username" type="text">
@@ -53,7 +51,6 @@
                 <p id="register-result"></p>
             </div>
 
-            <!-- Side Bar-->
             <aside id="item-nav">
 
                 <nav class="main-nav">
@@ -66,14 +63,11 @@
                     <a href="#" id="fav-btn" class="main-nav-btn">
                         <i class="fa fa-heart"></i> My Favorites
                     </a>
-                    <a href="#" id="recommend-btn" class="main-nav-btn">
-                        <i class="fa fa-thumbs-up"></i> Recommendation
-                    </a>
 
                 </nav>
 
             </aside>
-            <!-- SEARCH BAR -->
+<!--            SEARCH BAR-->
             <div id="search-option" class="bar">
                 <form>
                     <input id="search-by-keyword" type="text" placeholder="Search Event By Keyword">
@@ -81,7 +75,7 @@
                 </form>
             </div>
 
-            <!-- List of Events -->
+<!--            EVENT LIST-->
             <ul id="item-list">
                 <li class="item">
                     <img alt="item image" src="../static/IMAGE/sf.jpg" />
@@ -94,54 +88,148 @@
                             <i class="fa fa-star"></i>
                         </div>
                     </div>
-                    <p class="item-address">4900 Marie P. DeBartolo Way<br />Santa Clara<br /> CA</p>
+                    <p class="item-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA</p>
                     <div class="fav-link">
                         <i class="fa fa-heart"></i>
                     </div>
-            </ul>
-
-            <!-- Single Event View -->
-            <div id="event" class="event">
-                <div class="event-header">
-                    <img alt="event image" id="event-img" src="../static/IMAGE/sf.jpg" />
-                    <div class="event-content">
-                        <a class="event-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
-                        <p class="event-category">Category: Sports</p>
+                </li>
+                <li class="item">
+                    <img alt="item image" src="../static/IMAGE/sf.jpg" />
+                    <div>
+                        <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                        <p class="item-category">Category: Sports</p>
                         <div class="stars">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                         </div>
                     </div>
+                    <p class="item-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA</p>
                     <div class="fav-link">
                         <i class="fa fa-heart"></i>
+                    </div>
+                </li>
+                <li class="item">
+                    <img alt="item image" src="../static/IMAGE/sf.jpg" />
+                    <div>
+                        <a class="item-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                        <p class="item-category">Category: Sports</p>
+                        <div class="stars">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="item-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA</p>
+                    <div class="fav-link">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                </li>
+            </ul>
+
+<!--            Single Event-->
+            <div id="event" class="event">
+                <div class="event-header">
+                    <img alt="event image" id="event-img" src="https://s1.ticketm.net/dam/a/f62/09dfb1e3-e77e-4ca0-b88a-f79a32d2ff62_549721_TABLET_LANDSCAPE_LARGE_16_9.jpg" />
+                </div>
+                <div class="event-content">
+                    <a class="event-name" href="#">San Francisco 49ers vs. Pittsburgh Steelers</a>
+                    <p class="event-category">Category: Sports</p>
+                    <div class="stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="event-sidebar">
+                        <div class="event-address">4900 Marie P. DeBartolo Way<br/>Santa Clara<br/> CA
+                        </div>
+                        <div class="event-time">sas</div>
                     </div>
                 </div>
 
                 <div class="event-body">
-                    <div class="event-body-content">
+                  <div class="event-body-content">
                         <div class="about">About</div>
                         <div class="event-description">
-                            Testing 123 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                            AAAAAAAAAAAAA
                         </div>
-                    </div>
-                    <div class="event-sidebar">
-                        <div class="event-address">4900 Marie P. DeBartolo Way<br />Santa Clara, CA 95054
-                        </div>
-                        <div class="event-time">4:30 PM</div>
-                    </div>
+                   </div>
+
+
                 </div>
+
+                <div class="comment-wrapper">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                Comments
+                            </div>
+                            <div class="panel-body">
+
+                                <div class="comment-submission">
+                                    <textarea class="form-control" placeholder="write a comment..." rows="2"></textarea>
+                                    <button type="button" class="buttonComment">Post</button>
+                                </div>
+
+                                <hr>
+                                <ul class="media-list">
+                                    <li class="media">
+                                        <a href="#" class="pull-left">
+                                            <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""
+                                                class="img-circle">
+                                        </a>
+                                        <div class="media-body">
+                                            <span class="text-muted pull-right">
+                                                <small class="text-muted">30 min ago</small>
+                                            </span>
+                                            <strong class="text-success">Martino Mont</strong>
+                                            <p>
+                                                I am very interested.
+                                            </p>
+
+                                        </div>
+
+
+                                    </li>
+                                    <hr>
+                                    <li class="media">
+                                        <a href="#" class="pull-left">
+                                            <img src="https://bootdey.com/img/Content/user_2.jpg" alt=""
+                                                class="img-circle">
+                                        </a>
+                                        <div class="media-body">
+                                            <span class="text-muted pull-right">
+                                                <small class="text-muted">30 min ago</small>
+                                            </span>
+                                            <strong class="text-success">Laurence Correil</strong>
+                                            <p>
+                                                I would love to go with you guys. Please send me a message
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <hr>
+                                    <li class="media">
+                                        <a href="#" class="pull-left">
+                                            <img src="https://bootdey.com/img/Content/user_3.jpg" alt=""
+                                                class="img-circle">
+                                        </a>
+                                        <div class="media-body">
+                                            <span class="text-muted pull-right">
+                                                <small class="text-muted">30 min ago</small>
+                                            </span>
+                                            <strong class="text-success">John Phillip</strong>
+                                            <p>
+                                                I want to go, but I'm busy. Have fun everyone!
+                                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
             </div>
 
-            <!--USER PROFILE-->
+
+<!--            user Profile-->
             <div id="user" class="user">
                 <div class="user-profile">
                     <img alt="user image" width="280" height="180" src="../static/IMAGE/user1.jpg" />
@@ -177,12 +265,16 @@
                         <button id="edit-profile-btn">Edit</button>
                     </div>
                 </div>
+
             </div>
+
         </section>
     </div>
     <script src="https://rawgit.com/emn178/js-md5/master/build/md5.min.js"></script>
     <script type="text/javascript" src="../static/js/main.js"></script>
 
-</body>
 
+
+</body>
 </html>
+
