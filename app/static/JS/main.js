@@ -19,7 +19,7 @@
     document.querySelector('#register-btn').addEventListener('click', register);
     document.querySelector('#nearby-btn').addEventListener('click', loadNearbyItems);
     document.querySelector('#fav-btn').addEventListener('click', loadFavoriteItems);
-    document.querySelector('#recommend-btn').addEventListener('click', loadRecommendedItems);
+    // document.querySelector('#recommend-btn').addEventListener('click', loadRecommendedItems);
     document.querySelector('#search-btn').addEventListener('click', searchEventByKeyword);
     document.querySelector('#avatar').addEventListener('click', getUserInfo);
     document.querySelector('#edit-profile-btn').addEventListener('click', swapUserProfileView);
@@ -162,7 +162,7 @@
     hideElement(loginForm);
     hideElement(searchInput);
     hideElement(userProfile);
-    
+
     clearRegisterResult();
     showElement(registerForm);
   }  
@@ -293,7 +293,7 @@
         var result = JSON.parse(res);
 
         // successfully logged in
-        if (result.status === 'OK') { 
+        if (result.status === 'OK') {
         	showRegisterResult('Succesfully registered');
         } else {
         	showRegisterResult('User already existed');
@@ -394,9 +394,9 @@
     //Hide unnecessary div components
     var itemList = document.querySelector('#item-list');
     var welcomeMsg = document.querySelector('#welcome-msg');
-    var userForm = document.querySelector('.user');
+    var userForm = document.querySelector('#user');
     var searchInput = document.querySelector('#search-option')
-
+    var singleEvent = document.querySelector('#event');
     var userDesc = document.querySelector('.user-description');
     var userDescEdit = document.querySelector('.user-description-edit');
 
@@ -404,6 +404,7 @@
     hideElement(welcomeMsg);
     hideElement(userDescEdit);
     hideElement(searchInput);
+    hideElement(singleEvent)
     //Show User Profile Component
     showElement(userForm);
     // showElement(userDesc);
@@ -601,12 +602,16 @@
    */
   function loadFavoriteItems() {
     activeBtn('fav-btn');
-
-    //Hide User profile if open
-    focusOnList();
-
+    var searchInput = document.querySelector('#search-option');
+    var itemList = document.querySelector('#item-list');
+    var userForm = document.querySelector('#user');
+    var singleEvent = document.querySelector('#event');
+    hideElement(searchInput);
+    hideElement(userForm);
+    hideElement(singleEvent);
+    showElement(itemList);
     // request parameters
-    var url = './favorite';
+    var url = './history';
     var params = 'user_id=' + user_id;
     var req = JSON.stringify({});
 
@@ -630,33 +635,33 @@
    * API #3 Load recommended items API end point: [GET]
    * /recommendation?user_id=1111
    */
-  function loadRecommendedItems() {
-    activeBtn('recommend-btn');
-
-    // request parameters
-    var url = './recommendation' + '?' + 'user_id=' + user_id + '&lat=' + lat + '&lon=' + lng;
-    var data = null;
-
-    // display loading message
-    showLoadingMessage('Loading recommended items...');
-
-    // make AJAX call
-    ajax('GET', url, data,
-      // successful callback
-      function(res) {
-        var items = JSON.parse(res);
-        if (!items || items.length === 0) {
-          showWarningMessage('No recommended item. Make sure you have favorites.');
-        } else {
-          listItems(items);
-        }
-      },
-      // failed callback
-      function() {
-        showErrorMessage('Cannot load recommended items.');
-      }
-    );
-  }
+  // function loadRecommendedItems() {
+  //   activeBtn('recommend-btn');
+  //
+  //   // request parameters
+  //   var url = './recommendation' + '?' + 'user_id=' + user_id + '&lat=' + lat + '&lon=' + lng;
+  //   var data = null;
+  //
+  //   // display loading message
+  //   showLoadingMessage('Loading recommended items...');
+  //
+  //   // make AJAX call
+  //   ajax('GET', url, data,
+  //     // successful callback
+  //     function(res) {
+  //       var items = JSON.parse(res);
+  //       if (!items || items.length === 0) {
+  //         showWarningMessage('No recommended item. Make sure you have favorites.');
+  //       } else {
+  //         listItems(items);
+  //       }
+  //     },
+  //     // failed callback
+  //     function() {
+  //       showErrorMessage('Cannot load recommended items.');
+  //     }
+  //   );
+  // }
 
   /**
    * API #4 Toggle favorite (or visited) items
@@ -673,7 +678,7 @@
     var favorite = !(li.dataset.favorite === 'true');
 
     // request parameters
-    var url = './history';
+    var url = './favorite';
     var req = JSON.stringify({
       user_id: user_id,
       favorite: [item_id]
@@ -692,25 +697,43 @@
   }
 
   function showEventDetail(item_id) {
-    // var url = './detail';
-    // var params = 'item_id=' + item_id;
-    // var data = null;
-    //
-    // ajax('GET', url+ '?' + params, data,
-    //     function(res) {
-    //   var event = JSON.parse(res);
-    //   document.getElementById('event-img').src = event.img_url;
-    //   document.getElementById('event-name').src = event.name;
-    //   // document.querySelector(".user-id").textContent = `Username: ${user.user_id}`;
-    //   onEventDetailSession();
-    // });
+    console.log(item_id);
+    var url = './detail';
+    var params = 'item_id=' + item_id;
+    var data = null;
+    ajax('GET', url+ '?' + params, data,
+        function(res) {
+      var event = JSON.parse(res);
+      console.log(event.name);
+      img = document.getElementById('event-img');
+      eventName = document.getElementsByClassName('event-name');
+      console.log(eventName[0]);
+      category = document.getElementsByClassName('event-category');
+      console.log(category);
+      description = document.getElementsByClassName('event-description');
+      address = document.getElementsByClassName('event-address');
+      date = document.getElementsByClassName('event-time');
+      img.src = event.img_url;
+      eventName[0].innerHTML = event.name;
+      eventName[0].href = event.event_url;
+      category[0].innerHTML = 'Category: ' + event.category;
+      description[0].innerHTML = event.description;
+      address[0].innerHTML = event.address;
+      date[0].innerHTML = 'EVENT-DATE: ' + event.date;
+      // document.querySelector(".user-id").textContent = `Username: ${user.user_id}`;
+    });
+    onEventDetailSession();
   }
   function onEventDetailSession() {
     var itemList = document.querySelector('#item-list');
     var searchInput = document.querySelector('#search-option');
     var eventDetail = document.querySelector('#event');
+    var userForm = document.querySelector('#user');
+    var singleEvent = document.querySelector('#event');
+    hideElement(singleEvent);
     hideElement(itemList);
     hideElement(searchInput);
+    hideElement(userForm);
     showElement(eventDetail);
   }
   function focusOnList(){
@@ -763,8 +786,8 @@
    </li>
    */
   function addItem(itemList, item) {
-    var item_id = item.item_id;
-
+    var item_id = item.id;
+    console.log(item_id);
     // create the <li> tag and specify the id and class attributes
     var li = $create('li', {
       id: 'item-' + item_id,
@@ -777,8 +800,6 @@
 
     // item image
     if (item.img_url) {
-      console.log(item.img_url);
-      console.log(item.event_url);
       li.appendChild($create('img', { src: item.img_url }));
     } else {
       li.appendChild($create('img', {
@@ -797,22 +818,22 @@
     title.innerHTML = item.name;
     section.appendChild(title);
 
-    // category
-    // var category = $create('p', {
-    //   className: 'item-category'
-    // });
-    // category.innerHTML = 'Category: ' + item.categories.join(', ');
-    // section.appendChild(category);
+    //category
+    var category = $create('p', {
+      className: 'item-category'
+    });
+    category.innerHTML = 'Category: ' + item.category;
+    section.appendChild(category);
 
 
     // details button
     var detail = $create('button', {
       className: 'item-detail-btn', type: 'submit'});
     detail.innerHTML = "detail";
-    section.appendChild(detail);
     detail.onclick = function () {
       showEventDetail(item_id);
     };
+    section.appendChild(detail);
     // stars
     var stars = $create('div', {
       className: 'stars'
